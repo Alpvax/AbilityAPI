@@ -1,0 +1,64 @@
+package alpvax.abilities.core;
+
+import java.util.concurrent.Callable;
+
+import alpvax.abilities.api.IAbilityHandler;
+import alpvax.abilities.api.IAbilityProvider;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+
+public class CapabilityAbilityHandler
+{
+    @CapabilityInject(IAbilityHandler.class)
+    public static Capability<IAbilityHandler> ABILITY_HANDLER_CAPABILITY = null;
+    
+    @CapabilityInject(IAbilityProvider.class)
+    public static Capability<IAbilityProvider> ABILITY_PROVIDER_CAPABILITY = null;
+    
+    public static void register()
+    {
+    	CapabilityManager.INSTANCE.register(IAbilityHandler.class, new Capability.IStorage<IAbilityHandler>()
+        {
+            @Override
+            public NBTBase writeNBT(Capability<IAbilityHandler> capability, IAbilityHandler instance, EnumFacing side)
+            {
+            	return null;
+            }
+
+            @Override
+            public void readNBT(Capability<IAbilityHandler> capability, IAbilityHandler instance, EnumFacing side, NBTBase base)
+            {
+            }
+        }, new Callable<IAbilityHandler>()
+        {
+            @Override
+            public IAbilityHandler call() throws Exception
+            {
+                return null;//TODO: new IAbilityHandler();
+            }
+        });
+    	CapabilityManager.INSTANCE.register(IAbilityProvider.class, new Capability.IStorage<IAbilityProvider>()
+        {
+            @Override
+            public NBTBase writeNBT(Capability<IAbilityProvider> capability, IAbilityProvider instance, EnumFacing side)
+            {
+            	return null;
+            }
+
+            @Override
+            public void readNBT(Capability<IAbilityProvider> capability, IAbilityProvider instance, EnumFacing side, NBTBase base)
+            {
+            }
+        }, new Callable<IAbilityProvider>()
+        {
+            @Override
+            public IAbilityProvider call() throws Exception
+            {
+                return null;//TODO: new IAbilityProvider();
+            }
+        });
+    }
+}
