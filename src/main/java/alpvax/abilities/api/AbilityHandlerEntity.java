@@ -1,6 +1,11 @@
 package alpvax.abilities.api;
 
+import com.google.common.base.Predicate;
+
+import alpvax.abilities.api.ability.IAbilityState;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3;
 
 public class AbilityHandlerEntity implements IAbilityHandler
 {
@@ -9,5 +14,30 @@ public class AbilityHandlerEntity implements IAbilityHandler
 	public AbilityHandlerEntity(Entity e)
 	{
 		entity = e;
+	}
+
+	@Override
+	public IAbilityState getAbilities(Predicate<IAbilityState> filter)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Vec3 getPositionVector()
+	{
+		return entity.getPositionVector();
+	}
+
+	@Override
+	public BlockPos getPosition()
+	{
+		return entity.getPosition();
+	}
+
+	@Override
+	public double getDistanceSq(double x, double y, double z)
+	{
+		return getPositionVector().squareDistanceTo(new Vec3(x, y, z));
 	}
 }
