@@ -1,14 +1,16 @@
 package alpvax.abilities.api;
 
+import java.util.List;
+
 import com.google.common.base.Predicate;
 
-import alpvax.abilities.api.ability.IAbilityState;
+import alpvax.abilities.api.ability.state.AbilityState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 
 public interface IAbilityHandler
 {
-	public IAbilityState getAbilities(Predicate<IAbilityState> filter);
+	public List<AbilityState> getAbilities(Predicate<AbilityState> filter);
 	
 	public Vec3 getPositionVector();
 	public BlockPos getPosition();

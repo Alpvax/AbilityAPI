@@ -2,15 +2,17 @@ package alpvax.abilities.api;
 
 import java.util.List;
 
-import alpvax.abilities.api.ability.IAbilityState;
+import alpvax.abilities.api.ability.state.AbilityState;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public abstract class AbilityEntry
+public abstract class EffectInstance implements INBTSerializable<NBTTagCompound>
 {
 	public final IAbilityEffect effect;
 	private List<Entity> targets = null;
 	
-	public AbilityEntry(IAbilityEffect effect)
+	public EffectInstance(IAbilityEffect effect)
 	{
 		this.effect = effect;
 	}
@@ -20,7 +22,7 @@ public abstract class AbilityEntry
 		return targets;
 	}
 
-	public List<Entity> getTargets(IAbilityState state)
+	public List<Entity> getTargets(AbilityState state)
 	{
 		List<Entity> newTargets = getValidTargets(state);
 		if(targets == null)
@@ -40,18 +42,32 @@ public abstract class AbilityEntry
 		return targets;
 	}
 	
-	protected abstract List<Entity> getValidTargets(IAbilityState state);
+	protected abstract List<Entity> getValidTargets(AbilityState state);
 	
-	public abstract int getMaxDuration(IAbilityState state);
+	public abstract int getMaxDuration(AbilityState state);
 	/**
 	 * Called every game tick to determine if the effect's {@link #tick} method should be called.<br>
 	 * @param state the state of the ability.
 	 * @return true if the tick method should be called
 	 */
-	public abstract boolean shouldTick(IAbilityState state);
+	public abstract boolean shouldTick(AbilityState state);
 
-	public boolean shouldReset(IAbilityState state)
+	public boolean shouldReset(AbilityState state)
 	{
 		return state.isActive() && state.ticksActive() >= getMaxDuration(state);
+	}
+
+	@Override
+	public NBTTagCompound serializeNBT()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deserializeNBT(NBTTagCompound nbt)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

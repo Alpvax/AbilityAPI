@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.google.common.base.Predicate;
 
-import alpvax.abilities.api.ability.IAbilityState;
+import alpvax.abilities.api.ability.state.AbilityState;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IAbilityProvider
+public interface IAbilityProvider extends INBTSerializable<NBTTagCompound>
 {
 	/**
 	 * Used for adding and removing providers to handlers. Any providers with the same ID will replace one another.<br>
@@ -22,7 +24,7 @@ public interface IAbilityProvider
 	 * @param filter the filter that abilities have to match to be returned.
 	 * @return A list of abilities matching the filter
 	 */
-	public List<IAbilityState> getAbilities(Predicate<IAbilityState> filter);
+	public List<AbilityState> getAbilities(Predicate<AbilityState> filter);
 
 	/**
 	 * @return The {@link IAbilityHandler} this provider is currently attached to, or null if it isn't currently attached
