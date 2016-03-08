@@ -1,8 +1,9 @@
 package alpvax.abilities.api.ability.state;
 
-import java.util.List;
+import com.google.common.base.Predicate;
 
-import alpvax.abilities.api.EffectInstance;
+import alpvax.abilities.api.EffectStateInstance;
+import alpvax.abilities.api.IAbilityEffect;
 import alpvax.abilities.api.IAbilityHandler;
 import alpvax.abilities.api.IAbilityProvider;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,13 +22,16 @@ public abstract class AbilityState implements INBTSerializable<NBTTagCompound>
 	/**
 	 * The number of ticks since the power became active.
 	 */
-	private int ticksActive;
+	private int ticksSinceTriggered;
 	private int maxCooldown;
 	private int cooldown;
+	
+	private EffectStateInstance[] effects;
 	
 	public AbilityState(IAbilityProvider provider)
 	{
 		this.provider = provider;
+		effects = createEffects();
 	}
 
 	public int remainingCooldown()
@@ -42,21 +46,33 @@ public abstract class AbilityState implements INBTSerializable<NBTTagCompound>
 
 	public boolean isActive()
 	{
-		return ticksActive > 0;
+		return ticksSinceTriggered > 0;
 	}
 
 	public void tick()
 	{
 		if(isActive())
 		{
-			ticksActive++;
+			ticksSinceTriggered++;
 		}
 		if(cooldown > 0)
 		{
 			cooldown--;
 		}
+		
 	}
 	public void trigger()
+	{
+		if(getHandler() != null)
+		{
+			cooldown += maxCooldown;
+			for(EffectStateInstance e : effects)
+			{
+				e.trigger(this);
+			}
+		}
+	}
+	public void reset()
 	{
 		if(getHandler() != null)
 		{
@@ -69,25 +85,24 @@ public abstract class AbilityState implements INBTSerializable<NBTTagCompound>
 		return provider.getHandler();
 	}
 
-	public int ticksActive()
+	public int ticksSinceTriggered()
 	{
-		return ticksActive;
+		return ticksSinceTriggered;
 	}
 
 	@Override
 	public NBTTagCompound serializeNBT()
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setInteger(KEY_ACTIVE, ticksActive);
+		nbt.setInteger(KEY_ACTIVE, ticksSinceTriggered);
 		nbt.setInteger(KEY_COOLDOWN_MAX, maxCooldown);
 		nbt.setInteger(KEY_COOLDOWN, cooldown);
-		List<EffectInstance> list = getEffects();
-		if(list != null && list.size() > 0)
+		if(effects != null && effects.length > 0)
 		{
 			NBTTagList nbtlist = new NBTTagList();
-			for(INBTSerializable<NBTTagCompound> effect : list)
+			for(int i = 0; i < effects.length; i++)
 			{
-				nbtlist.appendTag(effect.serializeNBT());
+				nbtlist.appendTag(effects[i].serializeNBT());
 			}
 			nbt.setTag(KEY_EFFECTS, nbtlist);
 		}
@@ -97,19 +112,30 @@ public abstract class AbilityState implements INBTSerializable<NBTTagCompound>
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt)
 	{
-		ticksActive = nbt.getInteger(KEY_ACTIVE);
+		ticksSinceTriggered = nbt.getInteger(KEY_ACTIVE);
 		maxCooldown = nbt.getInteger(KEY_COOLDOWN_MAX);
 		cooldown = nbt.getInteger(KEY_COOLDOWN);
-		List<EffectInstance> list = getEffects();
-		if(list != null && list.size() > 0 && nbt.hasKey(KEY_EFFECTS, NBT.TAG_LIST))
+		if(effects != null && effects.length > 0 && nbt.hasKey(KEY_EFFECTS, NBT.TAG_LIST))
 		{
 			NBTTagList nbtlist = nbt.getTagList(KEY_EFFECTS, NBT.TAG_COMPOUND);
 			for(int i = 0; i < nbtlist.tagCount(); i++)
 			{
-				list.get(i).deserializeNBT(nbtlist.getCompoundTagAt(i));
+				effects[i].deserializeNBT(nbtlist.getCompoundTagAt(i));
 			}
 		}
 	}
 
-	public abstract List<EffectInstance> getEffects();
+	public boolean hasEffect(Predicate<IAbilityEffect> filter)
+	{
+		for(EffectStateInstance e : effects)
+		{
+			if(filter.apply(e.effect))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public abstract EffectStateInstance[] createEffects();
 }
