@@ -2,36 +2,40 @@ package alpvax.abilities.api;
 
 import java.util.List;
 
+import alpvax.abilities.affected.IAbilityAffected;
 import alpvax.abilities.api.ability.state.AbilityState;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public abstract class EffectInstance implements INBTSerializable<NBTTagCompound>
+public abstract class EffectStateInstance implements INBTSerializable<NBTTagCompound>
 {
 	public final IAbilityEffect effect;
-	private List<Entity> targets = null;
+	private List<IAbilityAffected> targets = null;
+	/**
+	 * The number of ticks since the power became active.
+	 */
+	private int ticksActive;
 	
-	public EffectInstance(IAbilityEffect effect)
+	public EffectStateInstance(IAbilityEffect effect)
 	{
 		this.effect = effect;
 	}
 
-	public List<Entity> getAffectedTargets()
+	public List<IAbilityAffected> getAffectedTargets()
 	{
 		return targets;
 	}
 
-	public List<Entity> getTargets(AbilityState state)
+	public List<IAbilityAffected> getTargets(AbilityState state)
 	{
-		List<Entity> newTargets = getValidTargets(state);
+		List<IAbilityAffected> newTargets = getValidTargets(state);
 		if(targets == null)
 		{
 			targets = newTargets;
 		}
 		else
 		{
-			for(Entity e : newTargets)
+			for(IAbilityAffected e : newTargets)
 			{
 				if(!targets.contains(e))
 				{
@@ -42,7 +46,7 @@ public abstract class EffectInstance implements INBTSerializable<NBTTagCompound>
 		return targets;
 	}
 	
-	protected abstract List<Entity> getValidTargets(AbilityState state);
+	protected abstract List<IAbilityAffected> getValidTargets(AbilityState state);
 	
 	public abstract int getMaxDuration(AbilityState state);
 	/**
@@ -51,10 +55,15 @@ public abstract class EffectInstance implements INBTSerializable<NBTTagCompound>
 	 * @return true if the tick method should be called
 	 */
 	public abstract boolean shouldTick(AbilityState state);
+	
+	public boolean isActive()
+	{
+		return ticksActive > 0;
+	}
 
 	public boolean shouldReset(AbilityState state)
 	{
-		return state.isActive() && state.ticksActive() >= getMaxDuration(state);
+		return isActive() && ticksActive >= getMaxDuration(state);
 	}
 
 	@Override
@@ -69,5 +78,21 @@ public abstract class EffectInstance implements INBTSerializable<NBTTagCompound>
 	{
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void trigger(AbilityState state)
+	{
+		for(IAbilityAffected affected : getTargets(state))
+		{
+			effect.trigger(state.getHandler(), affected);
+		}
+	}
+
+	public void reset(AbilityState state)
+	{
+		for(IAbilityAffected affected : getTargets(state))
+		{
+			effect.trigger(state.getHandler(), affected);
+		}
 	}
 }

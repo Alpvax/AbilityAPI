@@ -3,19 +3,19 @@ package alpvax.abilities.api.ability;
 import java.util.ArrayList;
 import java.util.List;
 
-import alpvax.abilities.api.EffectInstance;
+import alpvax.abilities.api.EffectStateInstance;
 import alpvax.abilities.api.IAbilityHandler;
 import alpvax.abilities.api.ability.state.AbilityState;
 
 public class Ability
 {	
-	private List<EffectInstance> effects = new ArrayList<>();
+	private List<EffectStateInstance> effects = new ArrayList<>();
 	
 
 	public void trigger(AbilityState state)
 	{
 		IAbilityHandler handler = state.getHandler();
-		for(EffectInstance e : effects)
+		for(EffectStateInstance e : effects)
 		{
 			e.effect.trigger(handler, e.getTargets(state));
 		}
@@ -23,7 +23,7 @@ public class Ability
 	public void reset(AbilityState state)
 	{
 		IAbilityHandler handler = state.getHandler();
-		for(EffectInstance e : effects)
+		for(EffectStateInstance e : effects)
 		{
 			e.effect.reset(handler, e.getAffectedTargets());
 		}
@@ -31,7 +31,7 @@ public class Ability
 	public void tick(AbilityState state)
 	{
 		IAbilityHandler handler = state.getHandler();
-		for(EffectInstance e : effects)
+		for(EffectStateInstance e : effects)
 		{
 			if(e.shouldReset(state))
 			{
@@ -44,7 +44,7 @@ public class Ability
 		}
 	}
 	
-	public Ability addEffect(EffectInstance effect)
+	public Ability addEffect(EffectStateInstance effect)
 	{
 		effects.add(effect);
 		return this;

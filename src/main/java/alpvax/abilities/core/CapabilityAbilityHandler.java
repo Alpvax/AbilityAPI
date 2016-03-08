@@ -2,6 +2,7 @@ package alpvax.abilities.core;
 
 import java.util.concurrent.Callable;
 
+import alpvax.abilities.affected.IAbilityAffected;
 import alpvax.abilities.api.IAbilityHandler;
 import alpvax.abilities.api.IAbilityProvider;
 import net.minecraft.nbt.NBTBase;
@@ -14,6 +15,9 @@ public class CapabilityAbilityHandler
 {
     @CapabilityInject(IAbilityHandler.class)
     public static Capability<IAbilityHandler> ABILITY_HANDLER_CAPABILITY = null;
+    
+    @CapabilityInject(IAbilityAffected.class)
+    public static Capability<IAbilityAffected> ABILITY_AFFECTED_CAPABILITY = null;
     
     @CapabilityInject(IAbilityProvider.class)
     public static Capability<IAbilityProvider> ABILITY_PROVIDER_CAPABILITY = null;
@@ -38,6 +42,26 @@ public class CapabilityAbilityHandler
             public IAbilityHandler call() throws Exception
             {
                 return null;//TODO: new IAbilityHandler();
+            }
+        });
+    	CapabilityManager.INSTANCE.register(IAbilityAffected.class, new Capability.IStorage<IAbilityAffected>()
+        {
+            @Override
+            public NBTBase writeNBT(Capability<IAbilityAffected> capability, IAbilityAffected instance, EnumFacing side)
+            {
+            	return null;
+            }
+
+            @Override
+            public void readNBT(Capability<IAbilityAffected> capability, IAbilityAffected instance, EnumFacing side, NBTBase base)
+            {
+            }
+        }, new Callable<IAbilityAffected>()
+        {
+            @Override
+            public IAbilityAffected call() throws Exception
+            {
+                return null;//TODO: new IAbilityAffected();
             }
         });
     	CapabilityManager.INSTANCE.register(IAbilityProvider.class, new Capability.IStorage<IAbilityProvider>()
