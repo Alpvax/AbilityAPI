@@ -12,13 +12,14 @@ public class AbilityAPIHooks
 	{
 		if(event.wasDeath)
 		{
-			//TODO:Copy data to new EntityPlayer
+			// TODO:Copy data to new EntityPlayer
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void attachCapabilities(AttachCapabilitiesEvent.Entity event)
 	{
-		event.addCapability(AbilitiesAPIConstants.ABILITY_AFFECTED_CAPABILITY, new AbilityAffectedProvider.Entity(event.getEntity()));
+		event.addCapability(AbilitiesAPIConstants.ABILITY_AFFECTED_CAPABILITY,
+				new AbilityAffectedProvider.Entity(event.getEntity()));
 	}
 }

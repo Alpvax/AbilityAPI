@@ -17,15 +17,13 @@ public class AbilityMod
 	public void preInit(FMLPreInitializationEvent e)
 	{
 		CapabilityAbilityHandler.register();
-		//TODO:MinecraftForge.EVENT_BUS.register(new AbilityAPIHooks());
-		
-		/*TODO:packetHandler = new AlpPacketManager(AbilitiesAPIConstants.MOD_ID);
-		initPackets();
-	}
+		// TODO:MinecraftForge.EVENT_BUS.register(new AbilityAPIHooks());
 
-	private void initPackets()
-	{
-		//TODO: packetHandler.registerMessage(PoweredPlayerPacket.Handler.class, PoweredPlayerPacket.class, Side.CLIENT);
-		*/
+		/*
+		 * TODO:packetHandler = new AlpPacketManager(AbilitiesAPIConstants.MOD_ID); initPackets(); }
+		 * 
+		 * private void initPackets() { //TODO: packetHandler.registerMessage(PoweredPlayerPacket.Handler.class,
+		 * PoweredPlayerPacket.class, Side.CLIENT);
+		 */
 	}
 }

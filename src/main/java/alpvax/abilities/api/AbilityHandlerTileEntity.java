@@ -12,7 +12,7 @@ import net.minecraft.util.Vec3;
 public class AbilityHandlerTileEntity implements IAbilityHandler
 {
 	private final TileEntity tile;
-	
+
 	public AbilityHandlerTileEntity(TileEntity e)
 	{
 		tile = e;
@@ -29,7 +29,7 @@ public class AbilityHandlerTileEntity implements IAbilityHandler
 	public Vec3 getPositionVector()
 	{
 		BlockPos pos = getPosition();
-		return new Vec3(((double)pos.getX()) + 0.5D, ((double)pos.getY()) + 0.5D, ((double)pos.getZ()) + 0.5D);
+		return new Vec3((pos.getX()) + 0.5D, (pos.getY()) + 0.5D, (pos.getZ()) + 0.5D);
 	}
 
 	@Override

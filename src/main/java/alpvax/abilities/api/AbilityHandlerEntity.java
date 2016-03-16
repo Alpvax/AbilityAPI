@@ -12,7 +12,7 @@ import net.minecraft.util.Vec3;
 public class AbilityHandlerEntity implements IAbilityHandler
 {
 	private final Entity entity;
-	
+
 	public AbilityHandlerEntity(Entity e)
 	{
 		entity = e;

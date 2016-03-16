@@ -15,7 +15,7 @@ public abstract class EffectStateInstance implements INBTSerializable<NBTTagComp
 	 * The number of ticks since the power became active.
 	 */
 	private int ticksActive;
-	
+
 	public EffectStateInstance(IAbilityEffect effect)
 	{
 		this.effect = effect;
@@ -45,17 +45,18 @@ public abstract class EffectStateInstance implements INBTSerializable<NBTTagComp
 		}
 		return targets;
 	}
-	
+
 	protected abstract List<IAbilityAffected> getValidTargets(AbilityState state);
-	
+
 	public abstract int getMaxDuration(AbilityState state);
+
 	/**
 	 * Called every game tick to determine if the effect's {@link #tick} method should be called.<br>
 	 * @param state the state of the ability.
 	 * @return true if the tick method should be called
 	 */
 	public abstract boolean shouldTick(AbilityState state);
-	
+
 	public boolean isActive()
 	{
 		return ticksActive > 0;
@@ -77,7 +78,7 @@ public abstract class EffectStateInstance implements INBTSerializable<NBTTagComp
 	public void deserializeNBT(NBTTagCompound nbt)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void trigger(AbilityState state)

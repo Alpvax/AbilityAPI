@@ -18,12 +18,12 @@ public class AbilityAffectedProvider implements ICapabilitySerializable<NBTTagLi
 	}
 
 	private IAbilityAffected handler;
-	
+
 	public AbilityAffectedProvider(IAbilityAffected affected)
 	{
 		handler = affected;
 	}
-	
+
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
 	{

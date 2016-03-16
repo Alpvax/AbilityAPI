@@ -7,10 +7,10 @@ import net.minecraftforge.common.util.INBTSerializable;
 public class EffectInstance implements INBTSerializable<NBTTagCompound>
 {
 	public final IAbilityEffect effect;
-	
+
 	private int ticksActive = 0;
 	private int maxDuration;
-	
+
 	public EffectInstance(IAbilityAffected affected, IAbilityEffect effect, int maxDuration)
 	{
 		this.effect = effect;
@@ -28,9 +28,9 @@ public class EffectInstance implements INBTSerializable<NBTTagCompound>
 	public void deserializeNBT(NBTTagCompound nbt)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public void tick()
 	{
 		if(isActive())
@@ -40,7 +40,7 @@ public class EffectInstance implements INBTSerializable<NBTTagCompound>
 			{
 				reset();
 			}
-			//TODO:effect.tick(abilityhandler, target);
+			// TODO:effect.tick(abilityhandler, target);
 		}
 	}
 

@@ -8,7 +8,10 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 public interface IAbilityAffected extends INBTSerializable<NBTTagList>
 {
+	public Object getAffected();
+
 	public boolean hasEffect(Predicate<IAbilityEffect> filter);
+
 	/**
 	 * Used to tick each effect and reset if necessary.
 	 */

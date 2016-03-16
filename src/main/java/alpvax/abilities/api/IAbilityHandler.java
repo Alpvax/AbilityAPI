@@ -11,9 +11,10 @@ import net.minecraft.util.Vec3;
 public interface IAbilityHandler
 {
 	public List<AbilityState> getAbilities(Predicate<AbilityState> filter);
-	
+
 	public Vec3 getPositionVector();
+
 	public BlockPos getPosition();
-	
+
 	public double getDistanceSq(double x, double y, double z);
 }

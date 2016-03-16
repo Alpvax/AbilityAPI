@@ -17,7 +17,7 @@ public abstract class AbilityState implements INBTSerializable<NBTTagCompound>
 	public static final String KEY_COOLDOWN = "Cooldown";
 	public static final String KEY_COOLDOWN_MAX = "CooldownMax";
 	public static final String KEY_EFFECTS = "Effects";
-	
+
 	private final IAbilityProvider provider;
 	/**
 	 * The number of ticks since the power became active.
@@ -25,9 +25,9 @@ public abstract class AbilityState implements INBTSerializable<NBTTagCompound>
 	private int ticksSinceTriggered;
 	private int maxCooldown;
 	private int cooldown;
-	
+
 	private EffectStateInstance[] effects;
-	
+
 	public AbilityState(IAbilityProvider provider)
 	{
 		this.provider = provider;
@@ -59,8 +59,9 @@ public abstract class AbilityState implements INBTSerializable<NBTTagCompound>
 		{
 			cooldown--;
 		}
-		
+
 	}
+
 	public void trigger()
 	{
 		if(getHandler() != null)
@@ -72,6 +73,7 @@ public abstract class AbilityState implements INBTSerializable<NBTTagCompound>
 			}
 		}
 	}
+
 	public void reset()
 	{
 		if(getHandler() != null)
@@ -136,6 +138,6 @@ public abstract class AbilityState implements INBTSerializable<NBTTagCompound>
 		}
 		return false;
 	}
-	
+
 	public abstract EffectStateInstance[] createEffects();
 }
