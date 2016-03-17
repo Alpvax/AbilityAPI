@@ -8,9 +8,9 @@ import alpvax.abilities.api.IAbilityHandler;
 import alpvax.abilities.api.ability.state.AbilityState;
 
 public class Ability
-{	
+{
 	private List<EffectStateInstance> effects = new ArrayList<>();
-	
+
 
 	public void trigger(AbilityState state)
 	{
@@ -20,6 +20,7 @@ public class Ability
 			e.effect.trigger(handler, e.getTargets(state));
 		}
 	}
+
 	public void reset(AbilityState state)
 	{
 		IAbilityHandler handler = state.getHandler();
@@ -28,6 +29,7 @@ public class Ability
 			e.effect.reset(handler, e.getAffectedTargets());
 		}
 	}
+
 	public void tick(AbilityState state)
 	{
 		IAbilityHandler handler = state.getHandler();
@@ -43,7 +45,7 @@ public class Ability
 			}
 		}
 	}
-	
+
 	public Ability addEffect(EffectStateInstance effect)
 	{
 		effects.add(effect);

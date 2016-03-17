@@ -15,10 +15,10 @@ import net.minecraft.nbt.NBTTagList;
 public class EntityAffected implements IAbilityAffected
 {
 	private static final String KEY_ID = "EffectProviderUUID";
-	
+
 	private Map<UUID, EffectInstance> effects = new HashMap<>();
 	public final Entity affectedEntity;
-	
+
 	public EntityAffected(Entity e)
 	{
 		affectedEntity = e;
@@ -65,13 +65,13 @@ public class EntityAffected implements IAbilityAffected
 	{
 		for(EffectInstance e : effects.values())
 		{
-			
+
 		}
 	}
 
 	@Override
 	public void addEffect(EffectStateInstance effect)
 	{
-		//TODO: get UUID from effect instance, not provider id
+		// TODO: get UUID from effect instance, not provider id
 	}
 }

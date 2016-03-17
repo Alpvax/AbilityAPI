@@ -9,13 +9,15 @@ public class EffectInstance implements INBTSerializable<NBTTagCompound>
 {
 	public final IAbilityEffect effect;
 	private IAbilityHandler abilityHandler;
-	
+	private IAbilityAffected affected;
+
 	private int ticksActive = 0;
 	private int maxDuration;
-	
-	public EffectInstance(IAbilityHandler source, IAbilityEffect effect, int maxDuration)
+
+	public EffectInstance(IAbilityAffected affected, IAbilityHandler source, IAbilityEffect effect, int maxDuration)
 	{
-		this.abilityHandler = source;
+		this.affected = affected;
+		abilityHandler = source;
 		this.effect = effect;
 		this.maxDuration = maxDuration;
 	}
@@ -31,19 +33,24 @@ public class EffectInstance implements INBTSerializable<NBTTagCompound>
 	public void deserializeNBT(NBTTagCompound nbt)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
+	protected boolean shouldReset()
+	{
+		return ticksActive >= maxDuration;
+	}
+
 	public void tick()
 	{
 		if(isActive())
 		{
 			ticksActive++;
-			if(ticksActive >= maxDuration)
+			if(shouldReset())
 			{
 				reset();
 			}
-			//TODO:effect.tick(abilityhandler, target);
+			effect.tick(abilityHandler, affected);
 		}
 	}
 

@@ -1,7 +1,7 @@
 package alpvax.abilities.core;
 
 
-import alpvax.common.network.AlpPacketManager;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -11,21 +11,19 @@ public class AbilityMod
 	@Mod.Instance(AbilitiesAPIConstants.MOD_ID)
 	public AbilityMod instance;
 
-	public static AlpPacketManager packetHandler;
+	// public static AlpPacketManager packetHandler;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e)
 	{
 		CapabilityAbilityHandler.register();
-		//TODO:MinecraftForge.EVENT_BUS.register(new AbilityAPIHooks());
-		
-		/*TODO:packetHandler = new AlpPacketManager(AbilitiesAPIConstants.MOD_ID);
-		initPackets();
-	}
+		MinecraftForge.EVENT_BUS.register(new AbilityAPIHooks());
 
-	private void initPackets()
-	{
-		//TODO: packetHandler.registerMessage(PoweredPlayerPacket.Handler.class, PoweredPlayerPacket.class, Side.CLIENT);
-		*/
+		/*
+		 * TODO:packetHandler = new AlpPacketManager(AbilitiesAPIConstants.MOD_ID); initPackets(); }
+		 *
+		 * private void initPackets() { //packetHandler.registerMessage(PoweredPlayerPacket.Handler.class,
+		 * PoweredPlayerPacket.class, Side.CLIENT);
+		 */
 	}
 }
