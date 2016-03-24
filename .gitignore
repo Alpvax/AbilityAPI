@@ -1,0 +1,7 @@
+# eclipse
+bin
+*.launch
+
+# gradle
+build
+.gradle
