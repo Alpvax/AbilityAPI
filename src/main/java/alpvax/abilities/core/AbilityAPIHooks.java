@@ -10,7 +10,7 @@ public class AbilityAPIHooks
 	@SubscribeEvent
 	public void onRespawn(PlayerEvent.Clone event)
 	{
-		if(event.wasDeath)
+		if(event.isWasDeath())
 		{
 			// TODO:Copy data to new EntityPlayer
 		}

@@ -1,5 +1,13 @@
 package alpvax.abilities.core;
 
+import alpvax.abilities.api.provider.IAbilityProvider;
+import alpvax.abilities.api.provider.SimpleAbilityProviderFactory;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+
 public class CapabilityAbilityHandler
 {
 	/*TODO:@CapabilityInject(IAbilityHandler.class)
@@ -8,8 +16,8 @@ public class CapabilityAbilityHandler
 	/*TODO:@CapabilityInject(IAbilityAffected.class)
 	public static Capability<IAbilityAffected> ABILITY_AFFECTED_CAPABILITY = null;*/
 
-	/*TODO:@CapabilityInject(IAbilityProvider.class)
-	public static Capability<IAbilityProvider> ABILITY_PROVIDER_CAPABILITY = null;*/
+	@CapabilityInject(IAbilityProvider.class)
+	public static Capability<IAbilityProvider> ABILITY_PROVIDER_CAPABILITY = null;
 
 	public static void register()
 	{
@@ -53,7 +61,7 @@ public class CapabilityAbilityHandler
 				return null;// TODO: new IAbilityAffected();
 			}
 		});*/
-		/*CapabilityManager.INSTANCE.register(IAbilityProvider.class, new Capability.IStorage<IAbilityProvider>()
+		CapabilityManager.INSTANCE.register(IAbilityProvider.class, new Capability.IStorage<IAbilityProvider>()
 		{
 			@Override
 			public NBTBase writeNBT(Capability<IAbilityProvider> capability, IAbilityProvider instance, EnumFacing side)
@@ -65,13 +73,6 @@ public class CapabilityAbilityHandler
 			public void readNBT(Capability<IAbilityProvider> capability, IAbilityProvider instance, EnumFacing side,
 					NBTBase base)
 			{}
-		}, new Callable<IAbilityProvider>()
-		{
-			@Override
-			public IAbilityProvider call() throws Exception
-			{
-				return null;// TODO: new IAbilityProvider();
-			}
-		});*/
+		}, new SimpleAbilityProviderFactory());
 	}
 }
