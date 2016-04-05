@@ -1,10 +1,11 @@
-package alpvax.abilities.api.provider;
+package alpvax.abilities.provider;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import alpvax.abilities.api.ability.Ability;
+import alpvax.abilities.api.provider.IAbilityProvider;
 import net.minecraft.nbt.NBTTagList;
 
 public class SimpleAbilityProvider implements IAbilityProvider

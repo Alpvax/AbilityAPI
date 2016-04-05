@@ -1,5 +1,6 @@
 package alpvax.abilities.core;
 
+import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 

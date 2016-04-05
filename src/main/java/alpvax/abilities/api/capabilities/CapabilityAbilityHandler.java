@@ -1,4 +1,4 @@
-package alpvax.abilities.core;
+package alpvax.abilities.api.capabilities;
 
 import alpvax.abilities.api.provider.IAbilityProvider;
 import alpvax.abilities.api.provider.SimpleAbilityProviderFactory;
@@ -28,11 +28,12 @@ public class CapabilityAbilityHandler
 			{
 				return null;
 			}
-
+		
 			@Override
-			public void readNBT(Capability<IAbilityHandler> capability, IAbilityHandler instance, EnumFacing side,
-					NBTBase base)
-			{}
+			public void readNBT(Capability<IAbilityHandler> capability, IAbilityHandler instance, EnumFacing side, NBTBase base)
+			{
+
+			}
 		}, new Callable<IAbilityHandler>()
 		{
 			@Override
@@ -48,11 +49,12 @@ public class CapabilityAbilityHandler
 			{
 				return null;
 			}
-
+		
 			@Override
-			public void readNBT(Capability<IAbilityAffected> capability, IAbilityAffected instance, EnumFacing side,
-					NBTBase base)
-			{}
+			public void readNBT(Capability<IAbilityAffected> capability, IAbilityAffected instance, EnumFacing side, NBTBase base)
+			{
+
+			}
 		}, new Callable<IAbilityAffected>()
 		{
 			@Override
@@ -70,9 +72,10 @@ public class CapabilityAbilityHandler
 			}
 
 			@Override
-			public void readNBT(Capability<IAbilityProvider> capability, IAbilityProvider instance, EnumFacing side,
-					NBTBase base)
-			{}
+			public void readNBT(Capability<IAbilityProvider> capability, IAbilityProvider instance, EnumFacing side, NBTBase base)
+			{
+
+			}
 		}, new SimpleAbilityProviderFactory());
 	}
 }

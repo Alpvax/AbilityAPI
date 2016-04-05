@@ -7,6 +7,7 @@ import com.google.common.base.Throwables;
 
 import alpvax.abilities.api.ability.Ability.IAbilityFactory;
 import alpvax.abilities.api.provider.IAbilityProvider.IAbilityProviderFactory;
+import alpvax.abilities.provider.SimpleAbilityProvider;
 
 public class SimpleAbilityProviderFactory implements IAbilityProviderFactory
 {
