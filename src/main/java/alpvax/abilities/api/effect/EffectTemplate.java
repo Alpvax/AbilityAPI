@@ -34,4 +34,6 @@ public abstract class EffectTemplate
 	public abstract int maxCooldown(IAbilityAffected affected);
 
 	public abstract int maxDuration(IAbilityAffected affected);
+
+	public abstract boolean persistAcrossDeath();
 }

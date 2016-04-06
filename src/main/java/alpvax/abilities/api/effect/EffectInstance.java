@@ -42,4 +42,9 @@ public class EffectInstance
 	{
 		template.effect.reset(provider, affected);
 	}
+
+	public boolean persistAcrossDeath()
+	{
+		return template.persistAcrossDeath();
+	}
 }

@@ -1,5 +1,7 @@
 package alpvax.abilities.api.affected;
 
+import java.util.Map;
+
 import com.google.common.base.Predicate;
 
 import alpvax.abilities.api.effect.EffectInstance;
@@ -48,6 +50,13 @@ public class AbilityAffectedBase implements IAbilityAffected
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public Map<AffectKey, EffectInstance> getEffects()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

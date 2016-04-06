@@ -9,4 +9,9 @@ public class Ability
 	};
 
 	//TODO: Implement Ability
+
+	public String getKey()
+	{
+		return null;//TODO
+	}
 }

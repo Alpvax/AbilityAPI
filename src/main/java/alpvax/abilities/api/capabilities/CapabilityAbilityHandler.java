@@ -1,5 +1,8 @@
 package alpvax.abilities.api.capabilities;
 
+import java.util.concurrent.Callable;
+
+import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.provider.IAbilityProvider;
 import alpvax.abilities.api.provider.SimpleAbilityProviderFactory;
 import net.minecraft.nbt.NBTBase;
@@ -13,8 +16,8 @@ public class CapabilityAbilityHandler
 	/*TODO:@CapabilityInject(IAbilityHandler.class)
 	public static Capability<IAbilityHandler> ABILITY_HANDLER_CAPABILITY = null;*/
 
-	/*TODO:@CapabilityInject(IAbilityAffected.class)
-	public static Capability<IAbilityAffected> ABILITY_AFFECTED_CAPABILITY = null;*/
+	@CapabilityInject(IAbilityAffected.class)
+	public static Capability<IAbilityAffected> ABILITY_AFFECTED_CAPABILITY = null;
 
 	@CapabilityInject(IAbilityProvider.class)
 	public static Capability<IAbilityProvider> ABILITY_PROVIDER_CAPABILITY = null;
@@ -28,7 +31,7 @@ public class CapabilityAbilityHandler
 			{
 				return null;
 			}
-		
+
 			@Override
 			public void readNBT(Capability<IAbilityHandler> capability, IAbilityHandler instance, EnumFacing side, NBTBase base)
 			{
@@ -42,14 +45,14 @@ public class CapabilityAbilityHandler
 				return null;// TODO: new IAbilityHandler();
 			}
 		});*/
-		/*CapabilityManager.INSTANCE.register(IAbilityAffected.class, new Capability.IStorage<IAbilityAffected>()
+		CapabilityManager.INSTANCE.register(IAbilityAffected.class, new Capability.IStorage<IAbilityAffected>()
 		{
 			@Override
 			public NBTBase writeNBT(Capability<IAbilityAffected> capability, IAbilityAffected instance, EnumFacing side)
 			{
 				return null;
 			}
-		
+
 			@Override
 			public void readNBT(Capability<IAbilityAffected> capability, IAbilityAffected instance, EnumFacing side, NBTBase base)
 			{
@@ -62,7 +65,7 @@ public class CapabilityAbilityHandler
 			{
 				return null;// TODO: new IAbilityAffected();
 			}
-		});*/
+		});
 		CapabilityManager.INSTANCE.register(IAbilityProvider.class, new Capability.IStorage<IAbilityProvider>()
 		{
 			@Override
