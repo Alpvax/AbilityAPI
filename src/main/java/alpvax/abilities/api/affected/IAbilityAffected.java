@@ -8,8 +8,10 @@ import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.effect.EffectInstance;
 import alpvax.abilities.api.effect.IAbilityEffect;
 import alpvax.abilities.api.provider.IAbilityProvider;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IAbilityAffected
+public interface IAbilityAffected extends INBTSerializable<NBTTagList>
 {
 	public class AffectKey
 	{

@@ -7,6 +7,7 @@ import com.google.common.base.Predicate;
 import alpvax.abilities.api.effect.EffectInstance;
 import alpvax.abilities.api.effect.IAbilityEffect;
 import alpvax.abilities.util.EffectMap;
+import net.minecraft.nbt.NBTTagList;
 
 public class AbilityAffectedBase implements IAbilityAffected
 {
@@ -57,6 +58,20 @@ public class AbilityAffectedBase implements IAbilityAffected
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public NBTTagList serializeNBT()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deserializeNBT(NBTTagList nbt)
+	{
+		// TODO Auto-generated method stub
+
 	}
 
 }
