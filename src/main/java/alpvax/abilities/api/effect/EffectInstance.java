@@ -2,8 +2,11 @@ package alpvax.abilities.api.effect;
 
 import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.provider.IAbilityProvider;
+import alpvax.abilities.core.AbilitiesAPIConstants;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public class EffectInstance
+public class EffectInstance implements INBTSerializable<NBTTagCompound>
 {
 	private final EffectTemplate template;
 	private final IAbilityProvider provider;
@@ -23,6 +26,11 @@ public class EffectInstance
 	public boolean shouldTick()
 	{
 		return isActive() && template.shouldTick(this, affected);
+	}
+
+	public IAbilityEffect getEffect()
+	{
+		return template.effect;
 	}
 
 	public boolean isActive()
@@ -46,5 +54,32 @@ public class EffectInstance
 	public boolean persistAcrossDeath()
 	{
 		return template.persistAcrossDeath();
+	}
+
+	public void tick()
+	{
+		ticksActive++;
+		if(shouldTick())
+		{
+			getEffect().tick(provider, affected);
+		}
+	}
+
+	@Override
+	public NBTTagCompound serializeNBT()
+	{
+		NBTTagCompound nbt = getEffect().serializeNBT();
+		if(nbt == null)
+		{
+			nbt = new NBTTagCompound();
+		}
+		nbt.setString(AbilitiesAPIConstants.KEY_PROVIDER_ID, provider.getID());
+		return nbt;
+	}
+
+	@Override
+	public void deserializeNBT(NBTTagCompound nbt)
+	{
+
 	}
 }

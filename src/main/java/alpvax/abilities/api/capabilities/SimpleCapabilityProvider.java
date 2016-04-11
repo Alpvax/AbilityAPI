@@ -11,7 +11,7 @@ public class SimpleCapabilityProvider<T> implements ICapabilityProvider
 
 	public SimpleCapabilityProvider(T capabilityHandler, Capability<T> capability)
 	{
-		handler = capabilityHandler;
+		handler = capabilityHandler != null ? capabilityHandler : capability.getDefaultInstance();
 		cap = capability;
 	}
 

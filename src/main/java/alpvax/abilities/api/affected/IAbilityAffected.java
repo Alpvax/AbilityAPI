@@ -1,49 +1,25 @@
 package alpvax.abilities.api.affected;
 
-import java.util.Map;
+import java.util.List;
 
 import com.google.common.base.Predicate;
 
-import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.effect.EffectInstance;
 import alpvax.abilities.api.effect.IAbilityEffect;
-import alpvax.abilities.api.provider.IAbilityProvider;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public interface IAbilityAffected extends INBTSerializable<NBTTagList>
 {
-	public class AffectKey
-	{
-		public final IAbilityProvider provider;
-		private final String abilityKey;
-
-		public AffectKey(IAbilityProvider p, String key)
-		{
-			provider = p;
-			abilityKey = key;
-		}
-
-		public Ability getAbility()
-		{
-			for(Ability a : provider.getAbilities())
-			{
-				if(a.getKey().equals(abilityKey))
-				{
-					return a;
-				}
-			}
-			return null;
-		}
-	}
-
 	public Object getAffected();
 
 	public void add(EffectInstance effect);
 
 	public void remove(EffectInstance effect);
 
-	public Map<AffectKey, EffectInstance> getEffects();
+	public void removeAll(Predicate<EffectInstance> filter);
+
+	public List<EffectInstance> getEffects();
 
 	public boolean hasEffect(Predicate<IAbilityEffect> filter);
 

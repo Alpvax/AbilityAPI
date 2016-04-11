@@ -3,9 +3,12 @@ package alpvax.abilities.api.capabilities;
 import java.util.concurrent.Callable;
 
 import alpvax.abilities.api.affected.IAbilityAffected;
+import alpvax.abilities.api.affected.SimpleAbilityAffected;
+import alpvax.abilities.api.effect.EffectInstance;
 import alpvax.abilities.api.provider.IAbilityProvider;
 import alpvax.abilities.api.provider.SimpleAbilityProviderFactory;
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -50,20 +53,25 @@ public class CapabilityAbilityHandler
 			@Override
 			public NBTBase writeNBT(Capability<IAbilityAffected> capability, IAbilityAffected instance, EnumFacing side)
 			{
-				return null;
+				NBTTagList list = new NBTTagList();
+				for(EffectInstance e : instance.getEffects())
+				{
+					list.appendTag(e.serializeNBT());
+				}
+				return list;
 			}
 
 			@Override
 			public void readNBT(Capability<IAbilityAffected> capability, IAbilityAffected instance, EnumFacing side, NBTBase base)
 			{
-
+				//TODO:Read
 			}
 		}, new Callable<IAbilityAffected>()
 		{
 			@Override
 			public IAbilityAffected call() throws Exception
 			{
-				return null;// TODO: new IAbilityAffected();
+				return new SimpleAbilityAffected(null);
 			}
 		});
 		CapabilityManager.INSTANCE.register(IAbilityProvider.class, new Capability.IStorage<IAbilityProvider>()
