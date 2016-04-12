@@ -1,7 +1,11 @@
 package alpvax.abilities.api.capabilities;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 
+import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.affected.SimpleAbilityAffected;
 import alpvax.abilities.api.effect.EffectInstance;
@@ -88,5 +92,52 @@ public class CapabilityAbilityHandler
 
 			}
 		}, new SimpleAbilityProviderFactory());
+	}
+
+	public static Ability getAbilityByID(UUID id)
+	{
+		return Registry.INSTANCE.getAbilityByID(id);
+	}
+
+	public static IAbilityProvider getProviderByID(UUID id)
+	{
+		return Registry.INSTANCE.getProviderByID(id);
+	}
+
+	public static enum Registry
+	{
+		INSTANCE;
+
+		private Map<UUID, Ability> idToAbilityMap = new HashMap<>();
+		private Map<UUID, IAbilityProvider> idToProviderMap = new HashMap<>();
+
+		public void registerAbility(Ability ability)
+		{
+			idToAbilityMap.put(ability.getID(), ability);
+		}
+
+		public Ability getAbilityByID(UUID id)
+		{
+			return idToAbilityMap.get(id);
+		}
+
+		public void registerProvider(IAbilityProvider provider)
+		{
+			idToProviderMap.put(provider.getID(), provider);
+		}
+
+		public void deleteProvider(IAbilityProvider provider)
+		{
+			idToProviderMap.remove(provider.getID());
+			for(Ability a : provider.getAbilities())
+			{
+				idToAbilityMap.remove(a.getID());
+			}
+		}
+
+		public IAbilityProvider getProviderByID(UUID id)
+		{
+			return idToProviderMap.get(id);
+		}
 	}
 }
