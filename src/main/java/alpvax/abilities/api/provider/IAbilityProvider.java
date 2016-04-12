@@ -39,6 +39,11 @@ public interface IAbilityProvider extends INBTSerializable<NBTTagList>
 	public List<Ability> getAbilities();
 
 	/**
+	 * Tick the provider every game tick, use it to tick all abilities.
+	 */
+	public void tick();
+
+	/**
 	 * @return The {@link IAbilityHandler} this provider is currently attached to, or null if it isn't currently
 	 *         attached
 	 */

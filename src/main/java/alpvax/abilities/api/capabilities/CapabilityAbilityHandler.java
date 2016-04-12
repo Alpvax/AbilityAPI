@@ -9,19 +9,24 @@ import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.affected.SimpleAbilityAffected;
 import alpvax.abilities.api.effect.EffectInstance;
+import alpvax.abilities.api.handler.IAbilityHandler;
 import alpvax.abilities.api.provider.IAbilityProvider;
 import alpvax.abilities.api.provider.SimpleAbilityProviderFactory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 public class CapabilityAbilityHandler
 {
-	/*TODO:@CapabilityInject(IAbilityHandler.class)
-	public static Capability<IAbilityHandler> ABILITY_HANDLER_CAPABILITY = null;*/
+	@CapabilityInject(IAbilityHandler.class)
+	public static Capability<IAbilityHandler> ABILITY_HANDLER_CAPABILITY = null;
 
 	@CapabilityInject(IAbilityAffected.class)
 	public static Capability<IAbilityAffected> ABILITY_AFFECTED_CAPABILITY = null;
@@ -92,6 +97,41 @@ public class CapabilityAbilityHandler
 
 			}
 		}, new SimpleAbilityProviderFactory());
+	}
+
+	/**
+	 * Ticks the object's IAbilityProvider and IAbilityAffected if they exist.<br>
+	 * If the object has an inventory, also loops through and ticks the IAbilityProvider and IAbilityAffected of each
+	 * ItemStack if they exist.<br>
+	 * <br>
+	 * THIS METHOD IS CALLED FOR EVERY ENTITY AND TILEENTITY IN THE WORLD WITH A FACING OF NULL!
+	 * @param object the object to attempt to tick
+	 * @param facing the face to check
+	 */
+	public static void tickCapability(ICapabilityProvider object, EnumFacing facing)
+	{
+		if(object.hasCapability(ABILITY_AFFECTED_CAPABILITY, facing))
+		{
+			IAbilityAffected a = object.getCapability(ABILITY_AFFECTED_CAPABILITY, facing);
+			a.tick();
+		}
+		if(object.hasCapability(ABILITY_PROVIDER_CAPABILITY, facing))
+		{
+			IAbilityProvider p = object.getCapability(ABILITY_PROVIDER_CAPABILITY, facing);
+			p.tick();
+		}
+		if(object.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing))
+		{
+			IItemHandler h = object.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
+			for(int i = 0; i < h.getSlots(); i++)
+			{
+				ItemStack stack = h.getStackInSlot(i);
+				if(stack != null && stack.stackSize > 0)
+				{
+					tickCapability(stack, facing);
+				}
+			}
+		}
 	}
 
 	public static Ability getAbilityByID(UUID id)

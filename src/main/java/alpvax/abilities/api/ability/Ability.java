@@ -7,6 +7,7 @@ import java.util.concurrent.Callable;
 
 import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
+import alpvax.abilities.api.provider.IAbilityProvider;
 
 public class Ability
 {
@@ -14,14 +15,22 @@ public class Ability
 	{
 	};
 
-	public Ability()
+	private UUID providerID;
+
+	protected Ability(IAbilityProvider provider)
 	{
+		providerID = provider.getID();
 		CapabilityAbilityHandler.Registry.INSTANCE.registerAbility(this);
 	}
 
 	public UUID getID()
 	{
 		return UUID.randomUUID();//TODO
+	}
+
+	public IAbilityProvider getProvider()
+	{
+		return CapabilityAbilityHandler.getProviderByID(providerID);
 	}
 
 	public void tick()

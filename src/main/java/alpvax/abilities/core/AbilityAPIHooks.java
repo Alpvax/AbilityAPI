@@ -8,6 +8,7 @@ import alpvax.abilities.api.capabilities.SerializableCapabilityProvider;
 import alpvax.abilities.api.effect.EffectInstance;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -49,11 +50,11 @@ public class AbilityAPIHooks
 	{
 		for(Entity e : event.world.loadedEntityList)
 		{
-			if(e.hasCapability(CapabilityAbilityHandler.ABILITY_AFFECTED_CAPABILITY, null))
-			{
-				IAbilityAffected a = e.getCapability(CapabilityAbilityHandler.ABILITY_AFFECTED_CAPABILITY, null);
-				a.tick();
-			}
+			CapabilityAbilityHandler.tickCapability(e, null);
+		}
+		for(TileEntity t : event.world.loadedTileEntityList)
+		{
+			CapabilityAbilityHandler.tickCapability(t, null);
 		}
 	}
 }
