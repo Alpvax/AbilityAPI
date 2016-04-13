@@ -1,6 +1,9 @@
 package alpvax.abilities.api.capabilities;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -104,31 +107,46 @@ public class CapabilityAbilityHandler
 	 * If the object has an inventory, also loops through and ticks the IAbilityProvider and IAbilityAffected of each
 	 * ItemStack if they exist.<br>
 	 * <br>
-	 * THIS METHOD IS CALLED FOR EVERY ENTITY AND TILEENTITY IN THE WORLD WITH A FACING OF NULL!
+	 * This method ticks the providers for each EnumFacing, as well as no EnumFacing (a facing of null).<br>
+	 * <br>
+	 * THIS METHOD IS CALLED FOR EACH FACE OF EVERY LOADED ENTITY AND TILEENTITY IN THE WORLD!
 	 * @param object the object to attempt to tick
-	 * @param facing the face to check
 	 */
-	public static void tickCapability(ICapabilityProvider object, EnumFacing facing)
+	public static void tickCapability(ICapabilityProvider object)
 	{
-		if(object.hasCapability(ABILITY_AFFECTED_CAPABILITY, facing))
+		for(EnumFacing facing : Arrays.copyOf(EnumFacing.VALUES, EnumFacing.VALUES.length + 1))
 		{
-			IAbilityAffected a = object.getCapability(ABILITY_AFFECTED_CAPABILITY, facing);
-			a.tick();
-		}
-		if(object.hasCapability(ABILITY_PROVIDER_CAPABILITY, facing))
-		{
-			IAbilityProvider p = object.getCapability(ABILITY_PROVIDER_CAPABILITY, facing);
-			p.tick();
-		}
-		if(object.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing))
-		{
-			IItemHandler h = object.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
-			for(int i = 0; i < h.getSlots(); i++)
+			List<ICapabilityTickable> list = new ArrayList<>();
+			if(object.hasCapability(ABILITY_AFFECTED_CAPABILITY, facing))
 			{
-				ItemStack stack = h.getStackInSlot(i);
-				if(stack != null && stack.stackSize > 0)
+				IAbilityAffected a = object.getCapability(ABILITY_AFFECTED_CAPABILITY, facing);
+				if(!list.contains(a))
 				{
-					tickCapability(stack, facing);
+					list.add(a);
+				}
+			}
+			if(object.hasCapability(ABILITY_PROVIDER_CAPABILITY, facing))
+			{
+				IAbilityProvider p = object.getCapability(ABILITY_PROVIDER_CAPABILITY, facing);
+				if(!list.contains(p))
+				{
+					list.add(p);
+				}
+			}
+			for(ICapabilityTickable t : list)
+			{
+				t.tick();
+			}
+			if(object.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing))
+			{
+				IItemHandler h = object.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
+				for(int i = 0; i < h.getSlots(); i++)
+				{
+					ItemStack stack = h.getStackInSlot(i);
+					if(stack != null && stack.stackSize > 0)
+					{
+						tickCapability(stack);
+					}
 				}
 			}
 		}

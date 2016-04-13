@@ -6,13 +6,14 @@ import java.util.concurrent.Callable;
 
 import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
+import alpvax.abilities.api.capabilities.ICapabilityTickable;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.INBTSerializable;
 
 /**
  * All implementations of this interface need to call {@link CapabilityAbilityHandler.Registry#registerProvider}
  */
-public interface IAbilityProvider extends INBTSerializable<NBTTagList>
+public interface IAbilityProvider extends ICapabilityTickable, INBTSerializable<NBTTagList>
 {
 	public static interface IAbilityProviderFactory extends Callable<IAbilityProvider>
 	{
@@ -39,8 +40,9 @@ public interface IAbilityProvider extends INBTSerializable<NBTTagList>
 	public List<Ability> getAbilities();
 
 	/**
-	 * Tick the provider every game tick, use it to tick all abilities.
+	 * {@inheritDoc}, use it to tick all abilities.
 	 */
+	@Override
 	public void tick();
 
 	/**

@@ -50,11 +50,11 @@ public class AbilityAPIHooks
 	{
 		for(Entity e : event.world.loadedEntityList)
 		{
-			CapabilityAbilityHandler.tickCapability(e, null);
+			CapabilityAbilityHandler.tickCapability(e);
 		}
 		for(TileEntity t : event.world.loadedTileEntityList)
 		{
-			CapabilityAbilityHandler.tickCapability(t, null);
+			CapabilityAbilityHandler.tickCapability(t);
 		}
 	}
 }
