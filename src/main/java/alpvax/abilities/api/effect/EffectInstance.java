@@ -1,5 +1,7 @@
 package alpvax.abilities.api.effect;
 
+import java.util.UUID;
+
 import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.provider.IAbilityProvider;
 import alpvax.abilities.core.AbilitiesAPIConstants;
@@ -73,7 +75,9 @@ public class EffectInstance implements INBTSerializable<NBTTagCompound>
 		{
 			nbt = new NBTTagCompound();
 		}
-		nbt.setString(AbilitiesAPIConstants.KEY_PROVIDER_ID, provider.getID());
+		UUID id = provider.getID();
+		nbt.setLong(AbilitiesAPIConstants.KEY_PROVIDER_MOST, id.getMostSignificantBits());
+		nbt.setLong(AbilitiesAPIConstants.KEY_PROVIDER_LEAST, id.getLeastSignificantBits());
 		return nbt;
 	}
 

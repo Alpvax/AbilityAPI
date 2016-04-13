@@ -1,4 +1,4 @@
-package alpvax.abilities.provider;
+package alpvax.abilities.api.provider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
-import alpvax.abilities.api.provider.IAbilityProvider;
 import net.minecraft.nbt.NBTTagList;
 
 public class SimpleAbilityProvider implements IAbilityProvider
@@ -54,6 +53,15 @@ public class SimpleAbilityProvider implements IAbilityProvider
 	{
 		abilities.add(ability);
 		return this;
+	}
+
+	@Override
+	public void tick()
+	{
+		for(Ability a : abilities)
+		{
+			a.tick();
+		}
 	}
 
 }
