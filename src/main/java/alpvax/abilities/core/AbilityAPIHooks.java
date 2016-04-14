@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
@@ -40,10 +41,13 @@ public class AbilityAPIHooks
 		}
 	}
 
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void attachCapabilities(AttachCapabilitiesEvent.Entity event)
 	{
-		event.addCapability(AbilitiesAPIConstants.ABILITY_AFFECTED_CAPABILITY, new SerializableCapabilityProvider.CapabilityProviderAA(new SimpleAbilityAffected(event.getEntity())));
+		if(!event.getEntity().hasCapability(CapabilityAbilityHandler.ABILITY_AFFECTED_CAPABILITY, null) && event.getCapabilities().keySet().contains(AbilitiesAPIConstants.ABILITY_AFFECTED_CAPABILITY))
+		{
+			event.addCapability(AbilitiesAPIConstants.ABILITY_AFFECTED_CAPABILITY, new SerializableCapabilityProvider.CapabilityProviderAA(new SimpleAbilityAffected(event.getEntity())));
+		}
 	}
 
 	@SubscribeEvent
