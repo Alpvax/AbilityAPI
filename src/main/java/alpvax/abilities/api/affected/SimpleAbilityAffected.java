@@ -82,10 +82,7 @@ public class SimpleAbilityAffected implements IAbilityAffected
 	{
 		for(EffectInstance e : getEffects())
 		{
-			if(e.shouldTick())
-			{
-				e.tick();
-			}
+			e.tick();
 		}
 	}
 

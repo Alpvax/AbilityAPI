@@ -114,9 +114,9 @@ public class CapabilityAbilityHandler
 	 */
 	public static void tickCapability(ICapabilityProvider object)
 	{
+		List<ICapabilityTickable> list = new ArrayList<>();
 		for(EnumFacing facing : Arrays.copyOf(EnumFacing.VALUES, EnumFacing.VALUES.length + 1))
 		{
-			List<ICapabilityTickable> list = new ArrayList<>();
 			if(object.hasCapability(ABILITY_AFFECTED_CAPABILITY, facing))
 			{
 				IAbilityAffected a = object.getCapability(ABILITY_AFFECTED_CAPABILITY, facing);
@@ -133,10 +133,6 @@ public class CapabilityAbilityHandler
 					list.add(p);
 				}
 			}
-			for(ICapabilityTickable t : list)
-			{
-				t.tick();
-			}
 			if(object.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing))
 			{
 				IItemHandler h = object.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
@@ -149,6 +145,10 @@ public class CapabilityAbilityHandler
 					}
 				}
 			}
+		}
+		for(ICapabilityTickable t : list)
+		{
+			t.tick();
 		}
 	}
 

@@ -61,6 +61,7 @@ public class EffectInstance implements INBTSerializable<NBTTagCompound>
 	public void tick()
 	{
 		ticksActive++;
+		ticksSinceLast++;
 		if(shouldTick())
 		{
 			getEffect().tick(provider, affected);
