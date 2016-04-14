@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.Constants.NBT;
 
 public abstract class ItemAbilityProvider extends Item implements IAbilityProviderFactory
 {
@@ -16,7 +17,7 @@ public abstract class ItemAbilityProvider extends Item implements IAbilityProvid
 	{
 		try
 		{
-			return new CapabilityProviderAP(call());
+			return new CapabilityProviderAP(call()).loadHandler(nbt.getTagList("Parent", NBT.TAG_LIST));
 		}
 		catch(Exception e)
 		{

@@ -5,6 +5,7 @@ import alpvax.abilities.api.provider.IAbilityProvider;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class SerializableCapabilityProvider<T, S extends NBTBase> extends SimpleCapabilityProvider<T> implements INBTSerializable<S>
@@ -27,7 +28,13 @@ public class SerializableCapabilityProvider<T, S extends NBTBase> extends Simple
 	{
 		((INBTSerializable<S>)getHandler()).deserializeNBT(nbt);
 	}
-	
+
+	public ICapabilityProvider loadHandler(S nbt)
+	{
+		deserializeNBT(nbt);
+		return this;
+	}
+
 	public static class CapabilityProviderAA extends SerializableCapabilityProvider<IAbilityAffected, NBTTagList>
 	{
 		public CapabilityProviderAA(IAbilityAffected handler)
