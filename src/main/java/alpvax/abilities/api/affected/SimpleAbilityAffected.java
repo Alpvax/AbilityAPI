@@ -15,11 +15,8 @@ public class SimpleAbilityAffected implements IAbilityAffected
 	private Object affected;
 	private List<EffectInstance> effects = new ArrayList<>();
 
-	public SimpleAbilityAffected()
-	{}
 	public SimpleAbilityAffected(Object affected)
 	{
-		this();
 		setAffected(affected);
 	}
 

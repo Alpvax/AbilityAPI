@@ -13,6 +13,7 @@ import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.affected.SimpleAbilityAffected;
 import alpvax.abilities.api.effect.EffectInstance;
 import alpvax.abilities.api.handler.IAbilityHandler;
+import alpvax.abilities.api.handler.SimpleAbilityHandler;
 import alpvax.abilities.api.provider.IAbilityProvider;
 import alpvax.abilities.api.provider.SimpleAbilityProviderFactory;
 import net.minecraft.item.ItemStack;
@@ -39,7 +40,7 @@ public class CapabilityAbilityHandler
 
 	public static void register()
 	{
-		/*CapabilityManager.INSTANCE.register(IAbilityHandler.class, new Capability.IStorage<IAbilityHandler>()
+		CapabilityManager.INSTANCE.register(IAbilityHandler.class, new Capability.IStorage<IAbilityHandler>()
 		{
 			@Override
 			public NBTBase writeNBT(Capability<IAbilityHandler> capability, IAbilityHandler instance, EnumFacing side)
@@ -57,9 +58,9 @@ public class CapabilityAbilityHandler
 			@Override
 			public IAbilityHandler call() throws Exception
 			{
-				return null;// TODO: new IAbilityHandler();
+				return new SimpleAbilityHandler(null);
 			}
-		});*/
+		});
 		CapabilityManager.INSTANCE.register(IAbilityAffected.class, new Capability.IStorage<IAbilityAffected>()
 		{
 			@Override
