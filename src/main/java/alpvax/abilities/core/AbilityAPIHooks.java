@@ -13,6 +13,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 public class AbilityAPIHooks
 {
@@ -48,13 +49,16 @@ public class AbilityAPIHooks
 	@SubscribeEvent
 	public void onTick(TickEvent.WorldTickEvent event)
 	{
-		for(Entity e : event.world.loadedEntityList)
+		if(event.phase == Phase.END)
 		{
-			CapabilityAbilityHandler.tickCapability(e);
-		}
-		for(TileEntity t : event.world.loadedTileEntityList)
-		{
-			CapabilityAbilityHandler.tickCapability(t);
+			for(Entity e : event.world.loadedEntityList)
+			{
+				CapabilityAbilityHandler.tickCapability(e);
+			}
+			for(TileEntity t : event.world.loadedTileEntityList)
+			{
+				CapabilityAbilityHandler.tickCapability(t);
+			}
 		}
 	}
 }
