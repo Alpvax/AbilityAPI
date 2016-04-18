@@ -1,7 +1,5 @@
 package alpvax.abilities.api.provider;
 
-import com.google.common.base.Throwables;
-
 import alpvax.abilities.api.capabilities.SerializableCapabilityProvider.CapabilityProviderAP;
 import alpvax.abilities.api.provider.IAbilityProvider.IAbilityProviderFactory;
 import net.minecraft.item.Item;
@@ -15,14 +13,6 @@ public abstract class ItemAbilityProvider extends Item implements IAbilityProvid
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt)
 	{
-		try
-		{
-			return new CapabilityProviderAP(call()).loadHandler(nbt.getTagList("Parent", NBT.TAG_LIST));
-		}
-		catch(Exception e)
-		{
-			Throwables.propagate(e);
-			return super.initCapabilities(stack, nbt);
-		}
+		return new CapabilityProviderAP(newProvider()).loadHandler(nbt.getTagList("Parent", NBT.TAG_LIST));
 	}
 }

@@ -2,7 +2,6 @@ package alpvax.abilities.api.provider;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
 import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
@@ -15,8 +14,9 @@ import net.minecraftforge.common.util.INBTSerializable;
  */
 public interface IAbilityProvider extends ICapabilityTickable, INBTSerializable<NBTTagList>
 {
-	public static interface IAbilityProviderFactory extends Callable<IAbilityProvider>
+	public static interface IAbilityProviderFactory
 	{
+		public IAbilityProvider newProvider();
 	};
 
 	/**

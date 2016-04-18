@@ -44,7 +44,7 @@ public class AbilityAPIHooks
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void attachCapabilities(AttachCapabilitiesEvent.Entity event)
 	{
-		if(!event.getEntity().hasCapability(CapabilityAbilityHandler.ABILITY_AFFECTED_CAPABILITY, null) && event.getCapabilities().keySet().contains(AbilitiesAPIConstants.ABILITY_AFFECTED_CAPABILITY))
+		if(!event.getEntity().hasCapability(CapabilityAbilityHandler.ABILITY_AFFECTED_CAPABILITY, null) && !event.getCapabilities().keySet().contains(AbilitiesAPIConstants.ABILITY_AFFECTED_CAPABILITY))
 		{
 			event.addCapability(AbilitiesAPIConstants.ABILITY_AFFECTED_CAPABILITY, new SerializableCapabilityProvider.CapabilityProviderAA(new SimpleAbilityAffected(event.getEntity())));
 		}

@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class AbilityMod
 {
 	@Mod.Instance(AbilitiesAPIConstants.MOD_ID)
-	public AbilityMod instance;
+	public static AbilityMod instance;
 
 	//public static AlpPacketManager packetHandler;
 

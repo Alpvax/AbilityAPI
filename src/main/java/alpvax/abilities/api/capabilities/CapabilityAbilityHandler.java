@@ -12,10 +12,8 @@ import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.affected.SimpleAbilityAffected;
 import alpvax.abilities.api.effect.EffectInstance;
-import alpvax.abilities.api.handler.IAbilityHandler;
-import alpvax.abilities.api.handler.SimpleAbilityHandler;
 import alpvax.abilities.api.provider.IAbilityProvider;
-import alpvax.abilities.api.provider.SimpleAbilityProviderFactory;
+import alpvax.abilities.api.provider.SimpleAbilityProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagList;
@@ -29,9 +27,6 @@ import net.minecraftforge.items.IItemHandler;
 
 public class CapabilityAbilityHandler
 {
-	@CapabilityInject(IAbilityHandler.class)
-	public static Capability<IAbilityHandler> ABILITY_HANDLER_CAPABILITY = null;
-
 	@CapabilityInject(IAbilityAffected.class)
 	public static Capability<IAbilityAffected> ABILITY_AFFECTED_CAPABILITY = null;
 
@@ -40,27 +35,6 @@ public class CapabilityAbilityHandler
 
 	public static void register()
 	{
-		CapabilityManager.INSTANCE.register(IAbilityHandler.class, new Capability.IStorage<IAbilityHandler>()
-		{
-			@Override
-			public NBTBase writeNBT(Capability<IAbilityHandler> capability, IAbilityHandler instance, EnumFacing side)
-			{
-				return null;
-			}
-
-			@Override
-			public void readNBT(Capability<IAbilityHandler> capability, IAbilityHandler instance, EnumFacing side, NBTBase base)
-			{
-
-			}
-		}, new Callable<IAbilityHandler>()
-		{
-			@Override
-			public IAbilityHandler call() throws Exception
-			{
-				return new SimpleAbilityHandler(null);
-			}
-		});
 		CapabilityManager.INSTANCE.register(IAbilityAffected.class, new Capability.IStorage<IAbilityAffected>()
 		{
 			@Override
@@ -100,7 +74,14 @@ public class CapabilityAbilityHandler
 			{
 
 			}
-		}, new SimpleAbilityProviderFactory());
+		}, new Callable<IAbilityProvider>()
+		{
+			@Override
+			public IAbilityProvider call() throws Exception
+			{
+				return new SimpleAbilityProvider();
+			}
+		});
 	}
 
 	/**

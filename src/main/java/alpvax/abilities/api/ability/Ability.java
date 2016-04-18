@@ -3,7 +3,6 @@ package alpvax.abilities.api.ability;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
 import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
@@ -11,8 +10,9 @@ import alpvax.abilities.api.provider.IAbilityProvider;
 
 public class Ability
 {
-	public static interface IAbilityFactory extends Callable<Ability>
+	public static interface IAbilityFactory
 	{
+		public Ability newAbility();
 	};
 
 	private UUID providerID;
