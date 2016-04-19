@@ -16,4 +16,9 @@ public class RaceModConstants
 	// Keys
 	public static final ResourceLocation RACE_CAPABILITY = new ResourceLocation(MOD_ID.toLowerCase(), "CapabilityRace");
 	public static final ResourceLocation ROLE_CAPABILITY = new ResourceLocation(MOD_ID.toLowerCase(), "CapabilityRole");
+
+	//NBT Keys
+	public static final String TAG_RACE = "Race";
+	public static final String TAG_ROLE = "Role";
+	public static final String TAG_ABILITIES = "Abilities";
 }

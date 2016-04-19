@@ -1,23 +1,34 @@
 package alpvax.racemod.race;
 
+import alpvax.racemod.core.RaceModConstants;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.Constants.NBT;
 
 public class EntityRaceHandler implements IEntityRace
 {
 	private Entity entity = null;
-	private String raceID = null;
+	private EntityRace race = null;
 
-	@Override
-	public NBTTagString serializeNBT()
+	public EntityRaceHandler(Entity e)
 	{
-		return new NBTTagString(raceID);
+		setEntity(e);
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagString nbt)
+	public NBTTagCompound serializeNBT()
 	{
-		raceID = nbt.getString();
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setString(RaceModConstants.TAG_RACE, race.getID());
+		nbt.setTag(RaceModConstants.TAG_ABILITIES, race.serializeNBT());
+		return nbt;
+	}
+
+	@Override
+	public void deserializeNBT(NBTTagCompound nbt)
+	{
+		setRace(nbt.getString(RaceModConstants.TAG_RACE));
+		race.deserializeNBT(nbt.getTagList(RaceModConstants.TAG_ABILITIES, NBT.TAG_COMPOUND));
 	}
 
 	@Override
@@ -28,10 +39,20 @@ public class EntityRaceHandler implements IEntityRace
 	}
 
 	@Override
-	public EntityRace getRace()
+	public Entity getEntity()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return entity;
 	}
 
+	@Override
+	public void setRace(String raceID)
+	{
+		race = EntityRace.newInstance(raceID, entity);
+	}
+
+	@Override
+	public EntityRace getRace()
+	{
+		return race;
+	}
 }

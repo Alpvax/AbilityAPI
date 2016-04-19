@@ -65,7 +65,7 @@ public class CapabilityRaceHandler
 			@Override
 			public IEntityRace call() throws Exception
 			{
-				return new EntityRaceHandler();
+				return new EntityRaceHandler(null);
 			}
 		});
 		CapabilityManager.INSTANCE.register(IEntityRole.class, new Capability.IStorage<IEntityRole>()
@@ -85,7 +85,7 @@ public class CapabilityRaceHandler
 			@Override
 			public IEntityRole call() throws Exception
 			{
-				return new EntityRoleHandler();
+				return new EntityRoleHandler(null);
 			}
 		});
 	}

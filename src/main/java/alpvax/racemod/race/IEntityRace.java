@@ -1,13 +1,16 @@
 package alpvax.racemod.race;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IEntityRace extends INBTSerializable<NBTTagString>
+public interface IEntityRace extends INBTSerializable<NBTTagCompound>
 {
 	public IEntityRace setEntity(Entity entity);
 
-	public EntityRace getRace();
+	public Entity getEntity();
 
+	public void setRace(String raceID);
+
+	public EntityRace getRace();
 }

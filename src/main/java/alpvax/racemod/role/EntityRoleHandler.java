@@ -1,23 +1,34 @@
 package alpvax.racemod.role;
 
+import alpvax.racemod.core.RaceModConstants;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.Constants.NBT;
 
 public class EntityRoleHandler implements IEntityRole
 {
 	private Entity entity = null;
-	private String roleID = null;
+	private EntityRole role = null;
 
-	@Override
-	public NBTTagString serializeNBT()
+	public EntityRoleHandler(Entity e)
 	{
-		return new NBTTagString(roleID);
+		setEntity(e);
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagString nbt)
+	public NBTTagCompound serializeNBT()
 	{
-		roleID = nbt.getString();
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setString(RaceModConstants.TAG_ROLE, role.getID());
+		nbt.setTag(RaceModConstants.TAG_ABILITIES, role.serializeNBT());
+		return nbt;
+	}
+
+	@Override
+	public void deserializeNBT(NBTTagCompound nbt)
+	{
+		setRole(nbt.getString(RaceModConstants.TAG_ROLE));
+		role.deserializeNBT(nbt.getTagList(RaceModConstants.TAG_ABILITIES, NBT.TAG_COMPOUND));
 	}
 
 	@Override
@@ -28,9 +39,20 @@ public class EntityRoleHandler implements IEntityRole
 	}
 
 	@Override
+	public Entity getEntity()
+	{
+		return entity;
+	}
+
+	@Override
+	public void setRole(String roleID)
+	{
+		role = EntityRole.newInstance(roleID, entity);
+	}
+
+	@Override
 	public EntityRole getRole()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return role;
 	}
 }
