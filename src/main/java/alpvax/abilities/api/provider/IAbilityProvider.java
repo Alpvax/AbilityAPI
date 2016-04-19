@@ -1,7 +1,6 @@
 package alpvax.abilities.api.provider;
 
 import java.util.List;
-import java.util.UUID;
 
 import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
@@ -28,11 +27,6 @@ public interface IAbilityProvider extends ICapabilityTickable, INBTSerializable<
 	 * @return a unique id for the provider to use when added to the handler
 	 */
 	public String getAttachKey();
-
-	/**
-	 * @return A UUID that can be used in {@link CapabilityAbilityHandler#getProvider}
-	 */
-	public UUID getID();
 
 	/**
 	 * @return A list of abilities matching the filter

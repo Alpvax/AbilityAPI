@@ -20,4 +20,6 @@ public class AbilitiesAPIConstants
 	public static final String KEY_EFFECT_ID = "EffectID";
 	public static final String KEY_PROVIDER_MOST = "ProviderMost";
 	public static final String KEY_PROVIDER_LEAST = "ProviderLeast";
+	public static final String KEY_ID_MOST = "UUIDMost";
+	public static final String KEY_ID_LEAST = "UUIDLeast";
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import alpvax.abilities.api.ability.Ability;
-import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
 import net.minecraft.nbt.NBTTagList;
 
 public class SimpleAbilityProvider implements IAbilityProvider
@@ -14,7 +13,6 @@ public class SimpleAbilityProvider implements IAbilityProvider
 
 	public SimpleAbilityProvider()
 	{
-		CapabilityAbilityHandler.Registry.INSTANCE.registerProvider(this);
 	}
 
 	@Override
@@ -34,13 +32,7 @@ public class SimpleAbilityProvider implements IAbilityProvider
 	@Override
 	public String getAttachKey()
 	{
-		return getID().toString();
-	}
-
-	@Override
-	public UUID getID()
-	{
-		return UUID.randomUUID();
+		return UUID.randomUUID().toString();
 	}
 
 	@Override

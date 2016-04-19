@@ -1,10 +1,7 @@
 package alpvax.abilities.api.effect;
 
-import java.util.UUID;
-
 import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.provider.IAbilityProvider;
-import alpvax.abilities.core.AbilitiesAPIConstants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -76,9 +73,9 @@ public class EffectInstance implements INBTSerializable<NBTTagCompound>
 		{
 			nbt = new NBTTagCompound();
 		}
-		UUID id = provider.getID();
+		/*UUID id = provider.getID();
 		nbt.setLong(AbilitiesAPIConstants.KEY_PROVIDER_MOST, id.getMostSignificantBits());
-		nbt.setLong(AbilitiesAPIConstants.KEY_PROVIDER_LEAST, id.getLeastSignificantBits());
+		nbt.setLong(AbilitiesAPIConstants.KEY_PROVIDER_LEAST, id.getLeastSignificantBits());*/
 		return nbt;
 	}
 
