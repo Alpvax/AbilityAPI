@@ -130,13 +130,28 @@ public class CapabilityAbilityHandler
 		return new ArrayList<>(all_handlers.values());
 	}
 
+	public static IAbilityHandler getHandler(UUID id)
+	{
+		return all_handlers.get(id);
+	}
+
 	public static List<IAbilityProvider> allProviders()
 	{
 		return new ArrayList<>(all_providers.values());
 	}
 
+	public static IAbilityProvider getProvider(UUID id)
+	{
+		return all_providers.get(id);
+	}
+
 	public static List<IAbilityAffected> allAffected()
 	{
 		return new ArrayList<>(all_affected.values());
+	}
+
+	public static IAbilityAffected getAffected(UUID id)
+	{
+		return all_affected.get(id);
 	}
 }

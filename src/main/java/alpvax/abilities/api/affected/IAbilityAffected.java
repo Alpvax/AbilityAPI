@@ -10,6 +10,10 @@ import alpvax.abilities.api.effect.IAbilityEffect;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.INBTSerializable;
 
+/**
+ * All instances must call {@link CapabilityAbilityHandler#register(this)} in order for them to work properly
+ * @author Alpvax
+ */
 public interface IAbilityAffected extends IKeyedCapability, INBTSerializable<NBTTagList>
 {
 	public Object getAffected();
