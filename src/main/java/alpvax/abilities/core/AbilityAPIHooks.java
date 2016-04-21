@@ -5,10 +5,12 @@ import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.affected.SimpleAbilityAffected;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
 import alpvax.abilities.api.capabilities.SerializableCapabilityProvider;
+import alpvax.abilities.api.capabilities.SimpleCapabilityProvider;
 import alpvax.abilities.api.effect.EffectInstance;
-import net.minecraft.entity.Entity;
+import alpvax.abilities.api.handler.EntityAbilityHandler.PlayerAbilityHandler;
+import alpvax.abilities.api.handler.IAbilityHandler;
+import alpvax.abilities.api.provider.IAbilityProvider;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -48,20 +50,28 @@ public class AbilityAPIHooks
 		{
 			event.addCapability(AbilitiesAPIConstants.ABILITY_AFFECTED_CAPABILITY, new SerializableCapabilityProvider.CapabilityProviderAA(new SimpleAbilityAffected(event.getEntity())));
 		}
+		if(event.getEntity() instanceof EntityPlayer)
+		{
+			event.addCapability(AbilitiesAPIConstants.ABILITY_HANDLER_CAPABILITY, new SimpleCapabilityProvider.CapabilityProviderAH(new PlayerAbilityHandler(event.getEntity())));
+		}
 	}
 
 	@SubscribeEvent
-	public void onTick(TickEvent.WorldTickEvent event)
+	public void onTick(TickEvent.ServerTickEvent event)
 	{
 		if(event.phase == Phase.END)
 		{
-			for(Entity e : event.world.loadedEntityList)
+			for(IAbilityHandler h : CapabilityAbilityHandler.allHandlers())
 			{
-				CapabilityAbilityHandler.tickCapability(e);
+				h.updateProviderList();
 			}
-			for(TileEntity t : event.world.loadedTileEntityList)
+			for(IAbilityProvider p : CapabilityAbilityHandler.allProviders())
 			{
-				CapabilityAbilityHandler.tickCapability(t);
+				p.tick();
+			}
+			for(IAbilityAffected a : CapabilityAbilityHandler.allAffected())
+			{
+				a.tick();
 			}
 		}
 	}

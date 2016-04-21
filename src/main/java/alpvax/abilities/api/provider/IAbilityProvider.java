@@ -4,18 +4,23 @@ import java.util.List;
 
 import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
-import alpvax.abilities.api.capabilities.ICapabilityTickable;
+import alpvax.abilities.api.capabilities.IKeyedCapability;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.INBTSerializable;
 
 /**
  * All implementations of this interface need to call {@link CapabilityAbilityHandler.Registry#registerProvider}
  */
-public interface IAbilityProvider extends ICapabilityTickable, INBTSerializable<NBTTagList>
+public interface IAbilityProvider extends IKeyedCapability, INBTSerializable<NBTTagList>
 {
-	public static interface IAbilityProviderFactory
+	public static abstract class AbilityProviderFactory
 	{
-		public IAbilityProvider newProvider();
+		public final IAbilityProvider newProvider()
+		{
+			return CapabilityAbilityHandler.register(createProvider());
+		}
+
+		protected abstract IAbilityProvider createProvider();
 	};
 
 	/**
@@ -34,9 +39,8 @@ public interface IAbilityProvider extends ICapabilityTickable, INBTSerializable<
 	public List<Ability> getAbilities();
 
 	/**
-	 * {@inheritDoc}, use it to tick all abilities.
+	 * Called every game tick, use it to tick all abilities.
 	 */
-	@Override
 	public void tick();
 
 	/**

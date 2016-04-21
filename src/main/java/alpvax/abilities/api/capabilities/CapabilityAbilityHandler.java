@@ -1,36 +1,81 @@
 package alpvax.abilities.api.capabilities;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 
 import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.affected.SimpleAbilityAffected;
 import alpvax.abilities.api.effect.EffectInstance;
+import alpvax.abilities.api.handler.IAbilityHandler;
+import alpvax.abilities.api.handler.SimpleAbilityHandler;
 import alpvax.abilities.api.provider.IAbilityProvider;
 import alpvax.abilities.api.provider.SimpleAbilityProvider;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 
 public class CapabilityAbilityHandler
 {
-	@CapabilityInject(IAbilityAffected.class)
-	public static Capability<IAbilityAffected> ABILITY_AFFECTED_CAPABILITY = null;
+	@CapabilityInject(IAbilityHandler.class)
+	public static Capability<IAbilityHandler> ABILITY_HANDLER_CAPABILITY = null;
 
 	@CapabilityInject(IAbilityProvider.class)
 	public static Capability<IAbilityProvider> ABILITY_PROVIDER_CAPABILITY = null;
 
-	public static void register()
+	@CapabilityInject(IAbilityAffected.class)
+	public static Capability<IAbilityAffected> ABILITY_AFFECTED_CAPABILITY = null;
+
+	public static void registerCapabilities()
 	{
+		CapabilityManager.INSTANCE.register(IAbilityHandler.class, new Capability.IStorage<IAbilityHandler>()
+		{
+			@Override
+			public NBTBase writeNBT(Capability<IAbilityHandler> capability, IAbilityHandler instance, EnumFacing side)
+			{
+				return null;
+			}
+
+			@Override
+			public void readNBT(Capability<IAbilityHandler> capability, IAbilityHandler instance, EnumFacing side, NBTBase base)
+			{
+				//TODO:Read
+			}
+		}, new Callable<IAbilityHandler>()
+		{
+			@Override
+			public IAbilityHandler call() throws Exception
+			{
+				return new SimpleAbilityHandler(null);
+			}
+		});
+		CapabilityManager.INSTANCE.register(IAbilityProvider.class, new Capability.IStorage<IAbilityProvider>()
+		{
+			@Override
+			public NBTBase writeNBT(Capability<IAbilityProvider> capability, IAbilityProvider instance, EnumFacing side)
+			{
+				return null;
+			}
+
+			@Override
+			public void readNBT(Capability<IAbilityProvider> capability, IAbilityProvider instance, EnumFacing side, NBTBase base)
+			{
+
+			}
+		}, new Callable<IAbilityProvider>()
+		{
+			@Override
+			public IAbilityProvider call() throws Exception
+			{
+				return new SimpleAbilityProvider();
+			}
+		});
 		CapabilityManager.INSTANCE.register(IAbilityAffected.class, new Capability.IStorage<IAbilityAffected>()
 		{
 			@Override
@@ -57,76 +102,41 @@ public class CapabilityAbilityHandler
 				return new SimpleAbilityAffected(null);
 			}
 		});
-		CapabilityManager.INSTANCE.register(IAbilityProvider.class, new Capability.IStorage<IAbilityProvider>()
-		{
-			@Override
-			public NBTBase writeNBT(Capability<IAbilityProvider> capability, IAbilityProvider instance, EnumFacing side)
-			{
-				return null;
-			}
-
-			@Override
-			public void readNBT(Capability<IAbilityProvider> capability, IAbilityProvider instance, EnumFacing side, NBTBase base)
-			{
-
-			}
-		}, new Callable<IAbilityProvider>()
-		{
-			@Override
-			public IAbilityProvider call() throws Exception
-			{
-				return new SimpleAbilityProvider();
-			}
-		});
 	}
 
-	/**
-	 * Ticks the object's IAbilityProvider and IAbilityAffected if they exist.<br>
-	 * If the object has an inventory, also loops through and ticks the IAbilityProvider and IAbilityAffected of each
-	 * ItemStack if they exist.<br>
-	 * <br>
-	 * This method ticks the providers for each EnumFacing, as well as no EnumFacing (a facing of null).<br>
-	 * <br>
-	 * THIS METHOD IS CALLED FOR EACH FACE OF EVERY LOADED ENTITY AND TILEENTITY IN THE WORLD!
-	 * @param object the object to attempt to tick
-	 */
-	public static void tickCapability(ICapabilityProvider object)
+	private static Map<UUID, IAbilityHandler> all_handlers = new HashMap<>();
+	private static Map<UUID, IAbilityProvider> all_providers = new HashMap<>();
+	private static Map<UUID, IAbilityAffected> all_affected = new HashMap<>();
+
+	public static <T extends IKeyedCapability> T register(T keyedCap)
 	{
-		List<ICapabilityTickable> list = new ArrayList<>();
-		for(EnumFacing facing : Arrays.copyOf(EnumFacing.VALUES, EnumFacing.VALUES.length + 1))
+		if(keyedCap instanceof IAbilityHandler)
 		{
-			if(object.hasCapability(ABILITY_AFFECTED_CAPABILITY, facing))
-			{
-				IAbilityAffected a = object.getCapability(ABILITY_AFFECTED_CAPABILITY, facing);
-				if(!list.contains(a))
-				{
-					list.add(a);
-				}
-			}
-			if(object.hasCapability(ABILITY_PROVIDER_CAPABILITY, facing))
-			{
-				IAbilityProvider p = object.getCapability(ABILITY_PROVIDER_CAPABILITY, facing);
-				if(!list.contains(p))
-				{
-					list.add(p);
-				}
-			}
-			if(object.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing))
-			{
-				IItemHandler h = object.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
-				for(int i = 0; i < h.getSlots(); i++)
-				{
-					ItemStack stack = h.getStackInSlot(i);
-					if(stack != null && stack.stackSize > 0)
-					{
-						tickCapability(stack);
-					}
-				}
-			}
+			all_handlers.put(keyedCap.getKey(), (IAbilityHandler)keyedCap);
 		}
-		for(ICapabilityTickable t : list)
+		if(keyedCap instanceof IAbilityProvider)
 		{
-			t.tick();
+			all_providers.put(keyedCap.getKey(), (IAbilityProvider)keyedCap);
 		}
+		if(keyedCap instanceof IAbilityAffected)
+		{
+			all_affected.put(keyedCap.getKey(), (IAbilityAffected)keyedCap);
+		}
+		return keyedCap;
+	}
+
+	public static List<IAbilityHandler> allHandlers()
+	{
+		return new ArrayList<>(all_handlers.values());
+	}
+
+	public static List<IAbilityProvider> allProviders()
+	{
+		return new ArrayList<>(all_providers.values());
+	}
+
+	public static List<IAbilityAffected> allAffected()
+	{
+		return new ArrayList<>(all_affected.values());
 	}
 }

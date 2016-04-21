@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.google.common.base.Predicate;
 
-import alpvax.abilities.api.capabilities.ICapabilityTickable;
+import alpvax.abilities.api.capabilities.IKeyedCapability;
 import alpvax.abilities.api.effect.EffectInstance;
 import alpvax.abilities.api.effect.IAbilityEffect;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IAbilityAffected extends ICapabilityTickable, INBTSerializable<NBTTagList>
+public interface IAbilityAffected extends IKeyedCapability, INBTSerializable<NBTTagList>
 {
 	public Object getAffected();
 
@@ -24,6 +24,8 @@ public interface IAbilityAffected extends ICapabilityTickable, INBTSerializable<
 
 	public boolean hasEffect(Predicate<IAbilityEffect> filter);
 
-	@Override
+	/**
+	 * Called every game tick, use it to tick all effects.
+	 */
 	public void tick();
 }

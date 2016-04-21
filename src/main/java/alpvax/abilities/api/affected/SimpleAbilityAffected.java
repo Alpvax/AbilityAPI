@@ -2,6 +2,7 @@ package alpvax.abilities.api.affected;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.google.common.base.Predicate;
 
@@ -13,10 +14,12 @@ import net.minecraft.nbt.NBTTagList;
 public class SimpleAbilityAffected implements IAbilityAffected
 {
 	private Object affected;
+	private UUID id = UUID.randomUUID();
 	private List<EffectInstance> effects = new ArrayList<>();
 
 	public SimpleAbilityAffected(Object affected)
 	{
+		CapabilityAbilityHandler.register(this);
 		setAffected(affected);
 	}
 
@@ -29,6 +32,12 @@ public class SimpleAbilityAffected implements IAbilityAffected
 	public Object getAffected()
 	{
 		return affected;
+	}
+
+	@Override
+	public UUID getKey()
+	{
+		return id;
 	}
 
 	@Override

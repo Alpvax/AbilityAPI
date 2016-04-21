@@ -13,6 +13,7 @@ public class AbilitiesAPIConstants
 	public static final String MOD_NAME = "Ablilties API";
 
 	// Keys
+	public static final ResourceLocation ABILITY_HANDLER_CAPABILITY = new ResourceLocation(MOD_ID.toLowerCase(), "AbilityHandlerCapability");
 	public static final ResourceLocation ABILITY_PROVIDER_CAPABILITY = new ResourceLocation(MOD_ID.toLowerCase(), "AbilityProviderCapability");
 	public static final ResourceLocation ABILITY_AFFECTED_CAPABILITY = new ResourceLocation(MOD_ID.toLowerCase(), "AbilityAffectedCapability");
 

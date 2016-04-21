@@ -1,5 +1,6 @@
 package alpvax.abilities.api.capabilities;
 
+import alpvax.abilities.api.handler.IAbilityHandler;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -31,5 +32,13 @@ public class SimpleCapabilityProvider<T> implements ICapabilityProvider
 	protected T getHandler()
 	{
 		return handler;
+	}
+
+	public static class CapabilityProviderAH extends SimpleCapabilityProvider<IAbilityHandler>
+	{
+		public CapabilityProviderAH(IAbilityHandler handler)
+		{
+			super(handler, CapabilityAbilityHandler.ABILITY_HANDLER_CAPABILITY);
+		}
 	}
 }

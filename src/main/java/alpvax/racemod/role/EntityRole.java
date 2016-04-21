@@ -3,8 +3,10 @@ package alpvax.racemod.role;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import alpvax.abilities.api.ability.Ability;
+import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
 import alpvax.abilities.api.provider.IAbilityProvider;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagList;
@@ -39,6 +41,7 @@ public class EntityRole implements IAbilityProvider
 	}
 
 	private final String registryKey;
+	private UUID id = UUID.randomUUID();
 	private final Entity entity;
 	private List<Ability> abilities;
 
@@ -46,6 +49,7 @@ public class EntityRole implements IAbilityProvider
 	{
 		registryKey = key;
 		entity = e;
+		CapabilityAbilityHandler.register(this);
 	}
 
 	public Entity getEntity()
@@ -56,6 +60,12 @@ public class EntityRole implements IAbilityProvider
 	public String getID()
 	{
 		return registryKey;
+	}
+
+	@Override
+	public UUID getKey()
+	{
+		return id;
 	}
 
 	@Override

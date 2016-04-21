@@ -50,12 +50,4 @@ public class SerializableCapabilityProvider<T, S extends NBTBase> extends Simple
 			super(handler, CapabilityAbilityHandler.ABILITY_PROVIDER_CAPABILITY);
 		}
 	}
-
-	/*public static class CapabilityProviderAH extends SerializableCapabilityProvider<IAbilityHandler, NBTTagList>
-	{
-		public CapabilityProviderAP(IAbilityHandler handler)
-		{
-			super(handler, CapabilityAbilityHandler.ABILITY_HANDLER_CAPABILITY);
-		}
-	}*/
 }
