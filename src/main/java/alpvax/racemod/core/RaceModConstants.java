@@ -5,7 +5,7 @@ import net.minecraft.util.ResourceLocation;
 public class RaceModConstants
 {
 	// Mod data
-	public static final String MOD_ID = "races&roles";
+	public static final String MOD_ID = "racemod";
 	public static final String MOD_NAME = "Races and Roles";
 
 	//GUI ids

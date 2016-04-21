@@ -1,22 +1,30 @@
 package alpvax.racemod.core;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class RaceModHooks
 {
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public void onSpawn(EntityJoinWorldEvent event)
+	public void onLogin(PlayerLoggedInEvent event)
 	{
-		if(event.getEntity() instanceof EntityPlayer)
+		final EntityPlayer player = event.player;
+		Minecraft.getMinecraft().addScheduledTask(new Runnable()
 		{
-			EntityPlayer player = (EntityPlayer)event.getEntity();
-			player.openGui(RaceAndRoleMod.instance, RaceModConstants.RACE_GUI, event.getWorld(), (int)player.posX, (int)player.posY, (int)player.posZ);
-			player.openGui(RaceAndRoleMod.instance, RaceModConstants.ROLE_GUI, event.getWorld(), (int)player.posX, (int)player.posY, (int)player.posZ);
-		}
+			@Override
+			public void run()
+			{
+				player.openGui(RaceAndRoleMod.instance, RaceModConstants.RACE_GUI, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+			}
+		});
+		player.openGui(RaceAndRoleMod.instance, RaceModConstants.ROLE_GUI, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
