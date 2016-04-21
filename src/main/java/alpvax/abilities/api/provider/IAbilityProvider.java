@@ -34,6 +34,11 @@ public interface IAbilityProvider extends IKeyedCapability, INBTSerializable<NBT
 	public String getAttachKey();
 
 	/**
+	 * @return the localised name of this provider for use in a GUI.
+	 */
+	public String getDisplayName();
+
+	/**
 	 * @return A list of abilities matching the filter
 	 */
 	public List<Ability> getAbilities();

@@ -19,7 +19,7 @@ public class EntityRaceHandler implements IEntityRace
 	public NBTTagCompound serializeNBT()
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setString(RaceModConstants.TAG_RACE, race.getID());
+		nbt.setString(RaceModConstants.TAG_RACE, race.getRaceID());
 		nbt.setTag(RaceModConstants.TAG_ABILITIES, race.serializeNBT());
 		return nbt;
 	}

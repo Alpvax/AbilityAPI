@@ -19,7 +19,7 @@ public class EntityRoleHandler implements IEntityRole
 	public NBTTagCompound serializeNBT()
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setString(RaceModConstants.TAG_ROLE, role.getID());
+		nbt.setString(RaceModConstants.TAG_ROLE, role.getRoleID());
 		nbt.setTag(RaceModConstants.TAG_ABILITIES, role.serializeNBT());
 		return nbt;
 	}

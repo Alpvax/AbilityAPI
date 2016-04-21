@@ -10,6 +10,7 @@ import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
 import alpvax.abilities.api.effect.EffectInstance;
 import alpvax.abilities.api.effect.IAbilityEffect;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.Vec3d;
 
 public class SimpleAbilityAffected implements IAbilityAffected
 {
@@ -102,6 +103,24 @@ public class SimpleAbilityAffected implements IAbilityAffected
 				effects.remove(o);
 			}
 		}
+	}
+
+	@Override
+	public MCObjectType getType()
+	{
+		return null;
+	}
+
+	@Override
+	public Vec3d getPosition()
+	{
+		return new Vec3d(0D, 0D, 0D);
+	}
+
+	@Override
+	public Vec3d getDirection()
+	{
+		return new Vec3d(0D, 0D, 0D);
 	}
 
 }

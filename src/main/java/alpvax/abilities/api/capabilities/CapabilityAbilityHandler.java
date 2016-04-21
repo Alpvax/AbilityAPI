@@ -73,7 +73,7 @@ public class CapabilityAbilityHandler
 			@Override
 			public IAbilityProvider call() throws Exception
 			{
-				return new SimpleAbilityProvider();
+				return new SimpleAbilityProvider(null);
 			}
 		});
 		CapabilityManager.INSTANCE.register(IAbilityAffected.class, new Capability.IStorage<IAbilityAffected>()

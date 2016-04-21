@@ -6,16 +6,19 @@ import java.util.UUID;
 
 import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagList;
 
 public class SimpleAbilityProvider implements IAbilityProvider
 {
 	private UUID id = UUID.randomUUID();
 	private List<Ability> abilities = new ArrayList<>();
+	private String name;
 
-	public SimpleAbilityProvider()
+	public SimpleAbilityProvider(String displayNameKey)
 	{
 		CapabilityAbilityHandler.register(this);
+		name = displayNameKey;
 	}
 
 	@Override
@@ -35,7 +38,7 @@ public class SimpleAbilityProvider implements IAbilityProvider
 	@Override
 	public String getAttachKey()
 	{
-		return getKey().toString();
+		return name;
 	}
 
 	@Override
@@ -63,6 +66,12 @@ public class SimpleAbilityProvider implements IAbilityProvider
 		{
 			a.tick();
 		}
+	}
+
+	@Override
+	public String getDisplayName()
+	{
+		return I18n.format(name + ".name");
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.UUID;
 import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
 import alpvax.abilities.api.provider.IAbilityProvider;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagList;
 
@@ -57,7 +58,7 @@ public class EntityRole implements IAbilityProvider
 		return entity;
 	}
 
-	public String getID()
+	public String getRoleID()
 	{
 		return registryKey;
 	}
@@ -108,5 +109,11 @@ public class EntityRole implements IAbilityProvider
 		{
 			a.tick();
 		}
+	}
+
+	@Override
+	public String getDisplayName()
+	{
+		return I18n.format("role." + getRoleID() + ".name");
 	}
 }

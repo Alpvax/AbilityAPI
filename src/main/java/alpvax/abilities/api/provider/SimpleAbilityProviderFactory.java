@@ -9,10 +9,11 @@ import alpvax.abilities.api.provider.IAbilityProvider.AbilityProviderFactory;
 public class SimpleAbilityProviderFactory extends AbilityProviderFactory
 {
 	private List<IAbilityFactory> abilityfactories = new ArrayList<>();
+	private String name;
 
-	public SimpleAbilityProviderFactory()
+	public SimpleAbilityProviderFactory(String displayName)
 	{
-		// TODO Auto-generated constructor stub
+		name = displayName;
 	}
 
 	public SimpleAbilityProviderFactory addAbility(IAbilityFactory ability)
@@ -24,7 +25,7 @@ public class SimpleAbilityProviderFactory extends AbilityProviderFactory
 	@Override
 	public IAbilityProvider createProvider()
 	{
-		SimpleAbilityProvider p = new SimpleAbilityProvider();
+		SimpleAbilityProvider p = new SimpleAbilityProvider(name);
 		for(IAbilityFactory f : abilityfactories)
 		{
 			p.addAbility(f.newAbility());
