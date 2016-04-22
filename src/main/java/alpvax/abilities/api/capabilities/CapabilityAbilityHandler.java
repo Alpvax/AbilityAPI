@@ -14,6 +14,7 @@ import alpvax.abilities.api.handler.IAbilityHandler;
 import alpvax.abilities.api.handler.SimpleAbilityHandler;
 import alpvax.abilities.api.provider.IAbilityProvider;
 import alpvax.abilities.api.provider.SimpleAbilityProvider;
+import alpvax.abilities.api.util.IUUIDKeyed;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
@@ -45,7 +46,6 @@ public class CapabilityAbilityHandler
 			@Override
 			public void readNBT(Capability<IAbilityHandler> capability, IAbilityHandler instance, EnumFacing side, NBTBase base)
 			{
-				//TODO:Read
 			}
 		}, new Callable<IAbilityHandler>()
 		{
@@ -92,7 +92,12 @@ public class CapabilityAbilityHandler
 			@Override
 			public void readNBT(Capability<IAbilityAffected> capability, IAbilityAffected instance, EnumFacing side, NBTBase base)
 			{
-				//TODO:Read
+				NBTTagList list = (NBTTagList)base;
+				int i = 0;
+				for(EffectInstance e : instance.getEffects())
+				{//TODO check order
+					e.deserializeNBT(list.getCompoundTagAt(i++));
+				}
 			}
 		}, new Callable<IAbilityAffected>()
 		{
@@ -108,7 +113,7 @@ public class CapabilityAbilityHandler
 	private static Map<UUID, IAbilityProvider> all_providers = new HashMap<>();
 	private static Map<UUID, IAbilityAffected> all_affected = new HashMap<>();
 
-	public static <T extends IKeyedCapability> T register(T keyedCap)
+	public static <T extends IUUIDKeyed> T register(T keyedCap)
 	{
 		if(keyedCap instanceof IAbilityHandler)
 		{

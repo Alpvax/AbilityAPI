@@ -36,7 +36,7 @@ public class AbilityMod
 
 		/*TODO:packetHandler = new AlpPacketManager(AbilitiesAPIConstants.MOD_ID); initPackets();
 		}
-
+		
 		private void initPackets()
 		{
 		//TODO: packetHandler.registerMessage(PoweredPlayerPacket.Handler.class, PoweredPlayerPacket.class, Side.CLIENT);*/

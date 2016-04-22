@@ -25,6 +25,7 @@ public class EntityRole implements IAbilityProvider
 	public static abstract class Factory
 	{
 		private final String registryKey;
+
 		public Factory(String key)
 		{
 			registryKey = key;
@@ -67,6 +68,12 @@ public class EntityRole implements IAbilityProvider
 	public UUID getKey()
 	{
 		return id;
+	}
+
+	@Override
+	public void setKey(UUID id)
+	{
+		this.id = id;
 	}
 
 	@Override
@@ -115,5 +122,11 @@ public class EntityRole implements IAbilityProvider
 	public String getDisplayName()
 	{
 		return I18n.format("role." + getRoleID() + ".name");
+	}
+
+	@Override
+	public IAbilityProvider cloneAcrossDeath()
+	{
+		return this;
 	}
 }

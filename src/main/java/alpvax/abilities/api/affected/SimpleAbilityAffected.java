@@ -42,6 +42,12 @@ public class SimpleAbilityAffected implements IAbilityAffected
 	}
 
 	@Override
+	public void setKey(UUID id)
+	{
+		this.id = id;
+	}
+
+	@Override
 	public NBTTagList serializeNBT()
 	{
 		return (NBTTagList)CapabilityAbilityHandler.ABILITY_AFFECTED_CAPABILITY.getStorage().writeNBT(CapabilityAbilityHandler.ABILITY_AFFECTED_CAPABILITY, this, null);

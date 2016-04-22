@@ -1,14 +1,12 @@
 package alpvax.abilities.api.handler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
 import alpvax.abilities.api.provider.IAbilityProvider;
+import alpvax.abilities.api.util.ProviderList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3d;
@@ -42,8 +40,9 @@ public class SimpleAbilityHandler implements IAbilityHandler
 
 	private final ICapabilityProvider handled;
 	private UUID id = UUID.randomUUID();
-	private Map<String, IAbilityProvider> attachedProviders = new HashMap<>();
-	private List<IAbilityProvider> providers = new ArrayList<>();
+	private ProviderList providers = new ProviderList(this);
+	/*private Map<String, IAbilityProvider> attachedProviders = new HashMap<>();
+	private List<IAbilityProvider> dynamicProviders = new ArrayList<>();*/
 
 	public SimpleAbilityHandler(ICapabilityProvider handled)
 	{
@@ -64,9 +63,16 @@ public class SimpleAbilityHandler implements IAbilityHandler
 	}
 
 	@Override
+	public void setKey(UUID id)
+	{
+		this.id = id;
+	}
+
+	@Override
 	public void updateProviderList()
 	{
-		providers.clear();
+		providers.update();
+		/*providers.clear();
 		for(EnumFacing facing : Arrays.copyOf(EnumFacing.VALUES, EnumFacing.VALUES.length + 1))
 		{
 			for(IAbilityProvider p : getProviders(getHandled(), facing))
@@ -76,24 +82,27 @@ public class SimpleAbilityHandler implements IAbilityHandler
 					providers.add(p);
 				}
 			}
-		}
+		}*/
 	}
 
 	@Override
-	public List<IAbilityProvider> getProviders()
+	public List<IAbilityProvider> getAllProviders()
 	{
-		List<IAbilityProvider> list = new ArrayList<>(attachedProviders.values());
-		list.addAll(providers);
-		return list;
+		/*List<IAbilityProvider> list = getAttachedProviders();
+		list.addAll(providers);*/
+		return providers.asList();
+	}
+
+	@Override
+	public List<IAbilityProvider> getAttachedProviders()
+	{
+		return providers.attached();
 	}
 
 	@Override
 	public void grantPowers(IAbilityProvider provider)
 	{
-		if(!attachedProviders.containsKey(provider.getAttachKey()))
-		{
-			attachedProviders.put(provider.getAttachKey(), provider);
-		}
+		providers.grant(provider);
 	}
 
 	@Override

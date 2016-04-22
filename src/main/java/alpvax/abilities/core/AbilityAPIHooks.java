@@ -31,11 +31,24 @@ public class AbilityAPIHooks
 			{
 				IAbilityAffected affected = player.getCapability(CapabilityAbilityHandler.ABILITY_AFFECTED_CAPABILITY, null);
 				IAbilityAffected oaffected = original.getCapability(CapabilityAbilityHandler.ABILITY_AFFECTED_CAPABILITY, null);
-				for(EffectInstance i : affected.getEffects())
+				for(EffectInstance i : oaffected.getEffects())
 				{
 					if(i.persistAcrossDeath())
 					{
-						oaffected.add(i);
+						affected.add(i);
+					}
+				}
+			}
+			if(player.hasCapability(CapabilityAbilityHandler.ABILITY_HANDLER_CAPABILITY, null) && original.hasCapability(CapabilityAbilityHandler.ABILITY_HANDLER_CAPABILITY, null))
+			{
+				IAbilityHandler h = player.getCapability(CapabilityAbilityHandler.ABILITY_HANDLER_CAPABILITY, null);
+				IAbilityHandler oh = original.getCapability(CapabilityAbilityHandler.ABILITY_HANDLER_CAPABILITY, null);
+				for(IAbilityProvider p : oh.getAttachedProviders())
+				{
+					IAbilityProvider p1 = p.cloneAcrossDeath();
+					if(p1 != null)
+					{
+						h.grantPowers(p1);
 					}
 				}
 			}

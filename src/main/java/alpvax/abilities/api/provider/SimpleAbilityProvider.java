@@ -48,6 +48,12 @@ public class SimpleAbilityProvider implements IAbilityProvider
 	}
 
 	@Override
+	public void setKey(UUID id)
+	{
+		this.id = id;
+	}
+
+	@Override
 	public List<Ability> getAbilities()
 	{
 		return abilities;
@@ -72,6 +78,12 @@ public class SimpleAbilityProvider implements IAbilityProvider
 	public String getDisplayName()
 	{
 		return I18n.format(name + ".name");
+	}
+
+	@Override
+	public IAbilityProvider cloneAcrossDeath()
+	{
+		return this;
 	}
 
 }

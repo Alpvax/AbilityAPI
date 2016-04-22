@@ -71,6 +71,12 @@ public class EntityRace implements IAbilityProvider
 	}
 
 	@Override
+	public void setKey(UUID id)
+	{
+		this.id = id;
+	}
+
+	@Override
 	public NBTTagList serializeNBT()
 	{
 		NBTTagList nbt = new NBTTagList();
@@ -116,5 +122,11 @@ public class EntityRace implements IAbilityProvider
 	public String getDisplayName()
 	{
 		return I18n.format("race." + getRaceID() + ".name");
+	}
+
+	@Override
+	public IAbilityProvider cloneAcrossDeath()
+	{
+		return this;
 	}
 }

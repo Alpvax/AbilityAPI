@@ -6,11 +6,12 @@ import java.util.UUID;
 
 import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.provider.IAbilityProvider;
+import alpvax.abilities.api.util.IUUIDKeyed;
 import alpvax.abilities.core.AbilitiesAPIConstants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class Ability implements INBTSerializable<NBTTagCompound>
+public class Ability implements IUUIDKeyed, INBTSerializable<NBTTagCompound>
 {
 	public static interface IAbilityFactory
 	{
@@ -28,17 +29,19 @@ public class Ability implements INBTSerializable<NBTTagCompound>
 	protected Ability(IAbilityProvider provider, UUID id)
 	{
 		this.provider = provider;
-		setID(id);
+		setKey(id);
 	}
 
-	private void setID(UUID id)
-	{
-		this.id = id;
-	}
-
-	public UUID getID()
+	@Override
+	public UUID getKey()
 	{
 		return id;
+	}
+
+	@Override
+	public void setKey(UUID id)
+	{
+		this.id = id;
 	}
 
 	public IAbilityProvider getProvider()
@@ -86,7 +89,7 @@ public class Ability implements INBTSerializable<NBTTagCompound>
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt)
 	{
-		setID(new UUID(nbt.getLong(AbilitiesAPIConstants.KEY_ID_MOST), nbt.getLong(AbilitiesAPIConstants.KEY_ID_LEAST)));
+		setKey(new UUID(nbt.getLong(AbilitiesAPIConstants.KEY_ID_MOST), nbt.getLong(AbilitiesAPIConstants.KEY_ID_LEAST)));
 		//TODO:Load effects
 	}
 }

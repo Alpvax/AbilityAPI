@@ -4,14 +4,14 @@ import java.util.List;
 
 import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
-import alpvax.abilities.api.capabilities.IKeyedCapability;
+import alpvax.abilities.api.util.IUUIDKeyed;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.INBTSerializable;
 
 /**
  * All implementations of this interface need to call {@link CapabilityAbilityHandler.Registry#registerProvider}
  */
-public interface IAbilityProvider extends IKeyedCapability, INBTSerializable<NBTTagList>
+public interface IAbilityProvider extends IUUIDKeyed, INBTSerializable<NBTTagList>
 {
 	public static abstract class AbilityProviderFactory
 	{
@@ -47,6 +47,11 @@ public interface IAbilityProvider extends IKeyedCapability, INBTSerializable<NBT
 	 * Called every game tick, use it to tick all abilities.
 	 */
 	public void tick();
+
+	/**
+	 * @return this provider, modified if necessary.
+	 */
+	public IAbilityProvider cloneAcrossDeath();
 
 	/**
 	 * @return The {@link IAbilityHandler} this provider is currently attached to, or null if it isn't currently
