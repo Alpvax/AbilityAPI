@@ -1,17 +1,18 @@
 package alpvax.abilities.api.provider;
 
 import java.util.List;
+import java.util.UUID;
 
 import alpvax.abilities.api.ability.Ability;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
-import alpvax.abilities.api.util.IUUIDKeyed;
+import alpvax.abilities.api.util.IKeyedEntry;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.INBTSerializable;
 
 /**
  * All implementations of this interface need to call {@link CapabilityAbilityHandler.Registry#registerProvider}
  */
-public interface IAbilityProvider extends IUUIDKeyed, INBTSerializable<NBTTagList>
+public interface IAbilityProvider extends IKeyedEntry<UUID>, INBTSerializable<NBTTagList>
 {
 	public static abstract class AbilityProviderFactory
 	{

@@ -1,17 +1,18 @@
 package alpvax.abilities.api.handler;
 
 import java.util.List;
+import java.util.UUID;
 
 import alpvax.abilities.api.provider.IAbilityProvider;
+import alpvax.abilities.api.util.IKeyedEntry;
 import alpvax.abilities.api.util.IMCObject;
-import alpvax.abilities.api.util.IUUIDKeyed;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 /**
  * All instances must call {@link CapabilityAbilityHandler#register(this)} in order for them to work properly
  * @author Alpvax
  */
-public interface IAbilityHandler extends IUUIDKeyed, IMCObject
+public interface IAbilityHandler extends IKeyedEntry<UUID>, IMCObject
 {
 	public ICapabilityProvider getHandled();
 

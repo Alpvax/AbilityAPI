@@ -6,12 +6,12 @@ import java.util.UUID;
 
 import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.provider.IAbilityProvider;
-import alpvax.abilities.api.util.IUUIDKeyed;
+import alpvax.abilities.api.util.IKeyedEntry;
 import alpvax.abilities.core.AbilitiesAPIConstants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class Ability implements IUUIDKeyed, INBTSerializable<NBTTagCompound>
+public class Ability implements IKeyedEntry<UUID>, INBTSerializable<NBTTagCompound>
 {
 	public static interface IAbilityFactory
 	{

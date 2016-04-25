@@ -4,6 +4,7 @@ package alpvax.abilities.core;
 import alpvax.abilities.api.affected.IAbilityAffected;
 import alpvax.abilities.api.affected.SimpleAbilityAffected;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
+import alpvax.abilities.api.capabilities.CapabilityProviderSkillHandler;
 import alpvax.abilities.api.capabilities.SerializableCapabilityProvider;
 import alpvax.abilities.api.capabilities.SimpleCapabilityProvider;
 import alpvax.abilities.api.effect.EffectInstance;
@@ -52,7 +53,6 @@ public class AbilityAPIHooks
 					}
 				}
 			}
-			// TODO:Copy abilities to new EntityPlayer
 		}
 	}
 
@@ -66,6 +66,10 @@ public class AbilityAPIHooks
 		if(event.getEntity() instanceof EntityPlayer)
 		{
 			event.addCapability(AbilitiesAPIConstants.ABILITY_HANDLER_CAPABILITY, new SimpleCapabilityProvider.CapabilityProviderAH(new PlayerAbilityHandler(event.getEntity())));
+		}
+		if(event.getEntity() instanceof EntityPlayer && !event.getEntity().hasCapability(CapabilityAbilityHandler.SKILL_HANDLER_CAPABILITY, null) && !event.getCapabilities().keySet().contains(AbilitiesAPIConstants.SKILL_HANDLER_CAPABILITY))
+		{
+			event.addCapability(AbilitiesAPIConstants.SKILL_HANDLER_CAPABILITY, new CapabilityProviderSkillHandler());
 		}
 	}
 

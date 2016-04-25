@@ -1,19 +1,17 @@
 package alpvax.abilities.api.util;
 
-import java.util.UUID;
-
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
 
 /**
  * All instances must call {@link CapabilityAbilityHandler#register(this)} in order for them to work properly
  * @author Alpvax
  */
-public interface IUUIDKeyed
+public interface IKeyedEntry<T>
 {
 	/**
 	 * @return the UUID to use when registering with {@link CapabilityAbilityHandler#register}
 	 */
-	public UUID getKey();
+	public T getKey();
 
-	public void setKey(UUID key);
+	public void setKey(T key);
 }

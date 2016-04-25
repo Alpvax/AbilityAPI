@@ -14,7 +14,9 @@ import alpvax.abilities.api.handler.IAbilityHandler;
 import alpvax.abilities.api.handler.SimpleAbilityHandler;
 import alpvax.abilities.api.provider.IAbilityProvider;
 import alpvax.abilities.api.provider.SimpleAbilityProvider;
-import alpvax.abilities.api.util.IUUIDKeyed;
+import alpvax.abilities.api.skill.ISkillHandler;
+import alpvax.abilities.api.skill.SimpleSkillHandler;
+import alpvax.abilities.api.util.IKeyedEntry;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
@@ -32,6 +34,9 @@ public class CapabilityAbilityHandler
 
 	@CapabilityInject(IAbilityAffected.class)
 	public static Capability<IAbilityAffected> ABILITY_AFFECTED_CAPABILITY = null;
+
+	@CapabilityInject(ISkillHandler.class)
+	public static Capability<ISkillHandler> SKILL_HANDLER_CAPABILITY = null;
 
 	public static void registerCapabilities()
 	{
@@ -107,13 +112,34 @@ public class CapabilityAbilityHandler
 				return new SimpleAbilityAffected(null);
 			}
 		});
+		CapabilityManager.INSTANCE.register(ISkillHandler.class, new Capability.IStorage<ISkillHandler>()
+		{
+			@Override
+			public NBTBase writeNBT(Capability<ISkillHandler> capability, ISkillHandler instance, EnumFacing side)
+			{
+				return null;
+			}
+
+			@Override
+			public void readNBT(Capability<ISkillHandler> capability, ISkillHandler instance, EnumFacing side, NBTBase base)
+			{
+
+			}
+		}, new Callable<ISkillHandler>()
+		{
+			@Override
+			public ISkillHandler call() throws Exception
+			{
+				return new SimpleSkillHandler();
+			}
+		});
 	}
 
 	private static Map<UUID, IAbilityHandler> all_handlers = new HashMap<>();
 	private static Map<UUID, IAbilityProvider> all_providers = new HashMap<>();
 	private static Map<UUID, IAbilityAffected> all_affected = new HashMap<>();
 
-	public static <T extends IUUIDKeyed> T register(T keyedCap)
+	public static <T extends IKeyedEntry<UUID>> T register(T keyedCap)
 	{
 		if(keyedCap instanceof IAbilityHandler)
 		{
