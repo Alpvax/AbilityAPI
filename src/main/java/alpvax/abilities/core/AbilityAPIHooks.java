@@ -48,7 +48,7 @@ public class AbilityAPIHooks
 					IAbilityProvider p1 = p.cloneAcrossDeath();
 					if(p1 != null)
 					{
-						h.grantPowers(p1);
+						h.grantAbilities(p1);
 					}
 				}
 			}

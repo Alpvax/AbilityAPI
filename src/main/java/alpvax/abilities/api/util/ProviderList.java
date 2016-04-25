@@ -11,9 +11,12 @@ import java.util.UUID;
 import alpvax.abilities.api.capabilities.CapabilityAbilityHandler;
 import alpvax.abilities.api.handler.IAbilityHandler;
 import alpvax.abilities.api.provider.IAbilityProvider;
+import alpvax.abilities.core.AbilitiesAPIConstants;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
@@ -21,8 +24,8 @@ public class ProviderList implements Iterable<IAbilityProvider>
 {
 	private final IAbilityHandler handler;
 
-	private Map<UUID, IAbilityProvider> attachedProviders = new HashMap<>();
-	private List<IAbilityProvider> providers = new ArrayList<>();
+	private List<UUID> attachedProviders = new ArrayList<>();
+	private Map<UUID, IAbilityProvider> providers = new HashMap<>();
 
 	public ProviderList(IAbilityHandler handler)
 	{
@@ -31,17 +34,29 @@ public class ProviderList implements Iterable<IAbilityProvider>
 
 	public void update()
 	{
-		providers.clear();
+		List<IAbilityProvider> list = new ArrayList<>();
 		for(EnumFacing facing : Arrays.copyOf(EnumFacing.VALUES, EnumFacing.VALUES.length + 1))
 		{
 			for(IAbilityProvider p : getProviders(handler.getHandled(), facing))
 			{
-				if(!providers.contains(p))
+				if(!list.contains(p))
 				{
-					providers.add(p);
+					list.add(p);
 				}
 			}
 		}
+		for(Iterator<IAbilityProvider> i = iterator(); i.hasNext();)
+		{
+			IAbilityProvider p = i.next();
+			if(!attachedProviders.contains(p.getKey()))
+			{
+				if(!list.remove(p))
+				{
+					i.remove();
+				}
+			}
+		}
+		addAll(list);
 	}
 
 	private List<IAbilityProvider> getProviders(ICapabilityProvider object, EnumFacing facing)
@@ -68,14 +83,17 @@ public class ProviderList implements Iterable<IAbilityProvider>
 
 	public List<IAbilityProvider> attached()
 	{
-		return new ArrayList<>(attachedProviders.values());
+		List<IAbilityProvider> list = new ArrayList<>();
+		for(UUID id : attachedProviders)
+		{
+			list.add(providers.get(id));
+		}
+		return list;
 	}
 
 	public List<IAbilityProvider> asList()
 	{
-		List<IAbilityProvider> list = attached();
-		list.addAll(providers);
-		return list;
+		return new ArrayList<>(providers.values());
 	}
 
 	public int size()
@@ -90,81 +108,63 @@ public class ProviderList implements Iterable<IAbilityProvider>
 
 	public boolean contains(IAbilityProvider p)
 	{
-		return providers.contains(p) || attachedProviders.containsKey(p.getKey());
+		return providers.containsKey(p.getAttachKey());
 	}
 
 	@Override
 	public Iterator<IAbilityProvider> iterator()
 	{
-		return new JoinedIter();
+		return providers.values().iterator();
 	}
 
-	public void grant(IAbilityProvider provider)
+	public void grantAbilities(IAbilityProvider provider)
 	{
-		attachedProviders.put(provider.getKey(), provider);
+		attachedProviders.add(provider.getKey());
+		add(provider);
 	}
 
-	public boolean add(IAbilityProvider e)
+	private void add(IAbilityProvider p)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		providers.put(p.getKey(), p);
 	}
 
-	public boolean remove(Object o)
+	private void addAll(Iterable<? extends IAbilityProvider> i)
 	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean addAll(Iterable<? extends IAbilityProvider> i)
-	{
-		boolean flag = false;
 		for(IAbilityProvider p : i)
 		{
-			flag |= add(p);
+			add(p);
 		}
-		return flag;
 	}
 
-	public boolean removeAll(Iterable<? extends IAbilityProvider> i)
+	public IAbilityProvider get(UUID key)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return providers.get(key);
 	}
 
-	public void clear()
+	protected IAbilityProvider remove(UUID key)
 	{
-		// TODO Auto-generated method stub
-
+		return providers.remove(key);
 	}
 
-	public IAbilityProvider get(int index)
+	public void readEntryFromNBT(NBTTagCompound nbt)
 	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public IAbilityProvider remove(int index)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private class JoinedIter implements Iterator<IAbilityProvider>
-	{
-		Iterator<IAbilityProvider> ai = attachedProviders.values().iterator();
-		Iterator<IAbilityProvider> pi = providers.iterator();
-
-		@Override
-		public boolean hasNext()
+		if(nbt.hasKey(AbilitiesAPIConstants.KEY_ID_MOST, NBT.TAG_LONG) && nbt.hasKey(AbilitiesAPIConstants.KEY_ID_LEAST, NBT.TAG_LONG))
 		{
-			return ai.hasNext() || pi.hasNext();
+			UUID id = new UUID(nbt.getLong(AbilitiesAPIConstants.KEY_ID_MOST), nbt.getLong(AbilitiesAPIConstants.KEY_ID_MOST));
+			get(id).deserializeNBT(nbt.getTagList(AbilitiesAPIConstants.KEY_ABILITIES, NBT.TAG_COMPOUND));
 		}
+	}
 
-		@Override
-		public IAbilityProvider next()
+	public NBTTagCompound writeEntryToNBT(UUID id)
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		IAbilityProvider p = get(id);
+		if(p != null)
 		{
-			return ai.hasNext() ? ai.next() : pi.next();
+			nbt.setLong(AbilitiesAPIConstants.KEY_ID_MOST, id.getMostSignificantBits());
+			nbt.setLong(AbilitiesAPIConstants.KEY_ID_LEAST, id.getLeastSignificantBits());
+			nbt.setTag(AbilitiesAPIConstants.KEY_ABILITIES, p.serializeNBT());
 		}
+		return nbt;
 	}
 }

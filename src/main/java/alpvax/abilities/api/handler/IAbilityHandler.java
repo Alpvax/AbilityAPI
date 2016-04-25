@@ -21,5 +21,5 @@ public interface IAbilityHandler extends IUUIDKeyed, IMCObject
 
 	public List<IAbilityProvider> getAllProviders();
 
-	public void grantPowers(IAbilityProvider provider);
+	public void grantAbilities(IAbilityProvider provider);
 }

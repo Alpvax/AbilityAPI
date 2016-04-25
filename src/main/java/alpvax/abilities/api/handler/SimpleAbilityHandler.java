@@ -100,9 +100,9 @@ public class SimpleAbilityHandler implements IAbilityHandler
 	}
 
 	@Override
-	public void grantPowers(IAbilityProvider provider)
+	public void grantAbilities(IAbilityProvider provider)
 	{
-		providers.grant(provider);
+		providers.grantAbilities(provider);
 	}
 
 	@Override
