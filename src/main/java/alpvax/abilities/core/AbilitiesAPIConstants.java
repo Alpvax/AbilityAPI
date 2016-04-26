@@ -26,4 +26,8 @@ public class AbilitiesAPIConstants
 	public static final String KEY_SKILL_ID = "SkillID";
 	public static final String KEY_SKILL_BASE = "SkillBaseValue";
 	public static final String KEY_SKILL_MILESTONES = "SkillMilestones";
+	public static final String KEY_SKILL_MODIFIERS = "SkillModifiers";
+	public static final String KEY_MODIFIER_TYPE = "ModifierOperation";
+	public static final String KEY_MODIFIER_VALUE = "ModifyAmount";
+	public static final String KEY_MODIFIER_CLASS = "ModifierClass";
 }

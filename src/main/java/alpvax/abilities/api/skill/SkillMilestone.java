@@ -1,9 +1,6 @@
 package alpvax.abilities.api.skill;
 
-import net.minecraft.nbt.NBTBase;
-import net.minecraftforge.common.util.INBTSerializable;
-
-public abstract class SkillMilestone<T extends NBTBase> implements INBTSerializable<T>
+public abstract class SkillMilestone
 {
 	private final Skill skill;
 	private final String id;

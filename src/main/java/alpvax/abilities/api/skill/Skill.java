@@ -33,6 +33,18 @@ public abstract class Skill implements IKeyedEntry<String>
 		return new ArrayList<>(milestones);
 	}
 
+	public SkillMilestone getMilestone(String key)
+	{
+		for(SkillMilestone m : getMilestones())
+		{
+			if(m.getKey().equals(key))
+			{
+				return m;
+			}
+		}
+		return null;
+	}
+
 	public void addMilestone(SkillMilestone milestone)
 	{
 		if(!milestones.contains(milestone))
