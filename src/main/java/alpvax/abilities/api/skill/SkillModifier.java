@@ -65,7 +65,7 @@ public class SkillModifier implements INBTSerializable<NBTTagCompound>
 		Class<? extends SkillModifier> clazz = getClass();
 		if(clazz != SkillModifier.class)
 		{
-			nbt.setString(AbilitiesAPIConstants.KEY_MODIFIER_CLASS, clazz.getName());
+			nbt.setString(AbilitiesAPIConstants.KEY_INSTANCE_CLASS, clazz.getName());
 		}
 		UUID id = getKey();
 		nbt.setLong(AbilitiesAPIConstants.KEY_ID_MOST, id.getMostSignificantBits());
@@ -92,9 +92,9 @@ public class SkillModifier implements INBTSerializable<NBTTagCompound>
 	{
 		UUID id = new UUID(nbt.getLong(AbilitiesAPIConstants.KEY_ID_MOST), nbt.getLong(AbilitiesAPIConstants.KEY_ID_LEAST));
 		ModifierType type = ModifierType.all_values[nbt.getInteger(AbilitiesAPIConstants.KEY_MODIFIER_TYPE)];
-		if(nbt.hasKey(AbilitiesAPIConstants.KEY_MODIFIER_CLASS))
+		if(nbt.hasKey(AbilitiesAPIConstants.KEY_INSTANCE_CLASS))
 		{
-			String cname = nbt.getString(AbilitiesAPIConstants.KEY_MODIFIER_CLASS);
+			String cname = nbt.getString(AbilitiesAPIConstants.KEY_INSTANCE_CLASS);
 			try
 			{
 				Class<?> clazz = Class.forName(cname);

@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import alpvax.abilities.core.AbilitiesAPIConstants;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants.NBT;
@@ -96,7 +98,7 @@ public class SkillInstance implements INBTSerializable<NBTTagCompound>
 		return modifiers.remove(id);
 	}
 
-	protected void markRequiresUpdate()
+	public void markRequiresUpdate()
 	{
 		needsUpdate = true;
 		for(SkillMilestone m : skill.getMilestones())
@@ -126,7 +128,12 @@ public class SkillInstance implements INBTSerializable<NBTTagCompound>
 		NBTTagCompound mileList = new NBTTagCompound();
 		for(SkillMilestone m : getAchievedMilestones())
 		{
-			mileList.setBoolean(m.getKey(), true);
+			NBTBase tag = m.serializeNBT();
+			if(tag == null)
+			{
+				tag = new NBTTagByte((byte)1);//Boolean true
+			}
+			mileList.setTag(m.getKey(), tag);
 		}
 		nbt.setTag(AbilitiesAPIConstants.KEY_SKILL_MILESTONES, mileList);
 		NBTTagList modList = new NBTTagList();
@@ -145,9 +152,10 @@ public class SkillInstance implements INBTSerializable<NBTTagCompound>
 		NBTTagCompound mileList = nbt.getCompoundTag(AbilitiesAPIConstants.KEY_SKILL_MILESTONES);
 		for(String key : mileList.getKeySet())
 		{
-			if(mileList.getBoolean(key))
+			SkillMilestone m = SkillMilestone.loadFromNBT(skill, key, nbt.getTag(key));
+			if(m != null)
 			{
-				achieved.add(skill.getMilestone(key));
+				achieved.add(m);
 			}
 		}
 		NBTTagList modList = nbt.getTagList(AbilitiesAPIConstants.KEY_SKILL_MODIFIERS, NBT.TAG_COMPOUND);

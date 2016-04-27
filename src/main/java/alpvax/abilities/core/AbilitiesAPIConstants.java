@@ -29,5 +29,5 @@ public class AbilitiesAPIConstants
 	public static final String KEY_SKILL_MODIFIERS = "SkillModifiers";
 	public static final String KEY_MODIFIER_TYPE = "ModifierOperation";
 	public static final String KEY_MODIFIER_VALUE = "ModifyAmount";
-	public static final String KEY_MODIFIER_CLASS = "ModifierClass";
+	public static final String KEY_INSTANCE_CLASS = "InstanceClass";
 }

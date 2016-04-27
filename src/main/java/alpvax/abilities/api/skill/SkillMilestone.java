@@ -1,6 +1,17 @@
 package alpvax.abilities.api.skill;
 
-public abstract class SkillMilestone
+import java.util.UUID;
+
+import com.google.common.base.Throwables;
+
+import alpvax.abilities.api.skill.SkillModifier.ModifierType;
+import alpvax.abilities.core.AbilitiesAPIConstants;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagByte;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.INBTSerializable;
+
+public abstract class SkillMilestone implements INBTSerializable<NBTTagCompound>
 {
 	private final Skill skill;
 	private final String id;
@@ -50,5 +61,49 @@ public abstract class SkillMilestone
 	public String getKey()
 	{
 		return id;
+	}
+
+	public Skill getSkill()
+	{
+		return skill;
+	}
+
+	/**
+	 * Return null to use default implementation (save true boolean if achieved)
+	 */
+	@Override
+	public NBTTagCompound serializeNBT()
+	{
+		return null;
+	}
+
+	@Override
+	public void deserializeNBT(NBTTagCompound nbt)
+	{
+		//Default nothing to serialize
+	}
+
+	public static final SkillMilestone loadFromNBT(Skill skill, String milestoneKey, NBTBase base)
+	{
+		if(base instanceof NBTTagCompound)
+		{
+			SkillMilestone sm = null;
+			NBTTagCompound nbt = (NBTTagCompound)base;
+			if(nbt.hasKey(AbilitiesAPIConstants.KEY_INSTANCE_CLASS))
+			{
+				String cname = nbt.getString(AbilitiesAPIConstants.KEY_INSTANCE_CLASS);
+				try
+				{
+					Class<?> clazz = Class.forName(cname);
+					sm = SkillMilestone.class.cast(clazz.getConstructor(UUID.class, ModifierType.class, double.class).newInstance(skill, milestoneKey));
+				}
+				catch(Exception e)
+				{
+					Throwables.propagate(e);
+				}
+			}
+			return sm;
+		}
+		return ((NBTTagByte)base).getByte() != 0 ? skill.getMilestone(milestoneKey) : null;
 	}
 }
