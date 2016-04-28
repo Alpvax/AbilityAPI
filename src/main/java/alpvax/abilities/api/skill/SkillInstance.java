@@ -1,6 +1,5 @@
 package alpvax.abilities.api.skill;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +21,15 @@ public class SkillInstance implements INBTSerializable<NBTTagCompound>
 	private double value;
 	private boolean needsUpdate = true;
 	private Map<UUID, SkillModifier> modifiers = new HashMap<>();
-	private List<SkillMilestone> achieved = new ArrayList<>();
+	//private List<SkillMilestone> achieved = new ArrayList<>();
+	private MilestoneMap milestones;//TODO: convert to list of achieved keys
 
 	public SkillInstance(Skill skill, ISkillHandler handler)
 	{
 		this.skill = skill;
 		baseValue = skill.getBaseValue();
 		this.handler = handler;
+		milestones = new MilestoneMap(skill);
 	}
 
 	public double getBaseValue()
@@ -105,18 +106,18 @@ public class SkillInstance implements INBTSerializable<NBTTagCompound>
 		{
 			if(m.onValueUpdate(handler, getAchievedMilestones().contains(m)))
 			{
-				achieved.add(m);
+				milestones.add(m.getKey(), m);
 			}
 			else
 			{
-				achieved.remove(m);
+				milestones.remove(m.getKey());
 			}
 		}
 	}
 
 	public List<SkillMilestone> getAchievedMilestones()
 	{
-		return achieved;
+		return milestones.values();
 	}
 
 	@Override
@@ -149,15 +150,7 @@ public class SkillInstance implements INBTSerializable<NBTTagCompound>
 	public void deserializeNBT(NBTTagCompound nbt)
 	{
 		baseValue = nbt.getDouble(AbilitiesAPIConstants.KEY_SKILL_BASE);
-		NBTTagCompound mileList = nbt.getCompoundTag(AbilitiesAPIConstants.KEY_SKILL_MILESTONES);
-		for(String key : mileList.getKeySet())
-		{
-			SkillMilestone m = SkillMilestone.loadFromNBT(skill, key, nbt.getTag(key));
-			if(m != null)
-			{
-				achieved.add(m);
-			}
-		}
+		milestones.deserializeNBT(nbt.getCompoundTag(AbilitiesAPIConstants.KEY_SKILL_MILESTONES));
 		NBTTagList modList = nbt.getTagList(AbilitiesAPIConstants.KEY_SKILL_MODIFIERS, NBT.TAG_COMPOUND);
 		for(int i = 0; i < modList.tagCount(); i++)
 		{

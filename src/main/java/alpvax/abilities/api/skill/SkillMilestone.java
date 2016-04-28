@@ -1,10 +1,7 @@
 package alpvax.abilities.api.skill;
 
-import java.util.UUID;
-
 import com.google.common.base.Throwables;
 
-import alpvax.abilities.api.skill.SkillModifier.ModifierType;
 import alpvax.abilities.core.AbilitiesAPIConstants;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;
@@ -95,7 +92,7 @@ public abstract class SkillMilestone implements INBTSerializable<NBTTagCompound>
 				try
 				{
 					Class<?> clazz = Class.forName(cname);
-					sm = SkillMilestone.class.cast(clazz.getConstructor(UUID.class, ModifierType.class, double.class).newInstance(skill, milestoneKey));
+					sm = SkillMilestone.class.cast(clazz.getConstructor(Skill.class, String.class).newInstance(skill, milestoneKey));
 				}
 				catch(Exception e)
 				{
