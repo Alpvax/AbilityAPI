@@ -1,13 +1,12 @@
 package alpvax.abilities.api.skill;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import alpvax.abilities.core.AbilitiesAPIConstants;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants.NBT;
@@ -21,8 +20,7 @@ public class SkillInstance implements INBTSerializable<NBTTagCompound>
 	private double value;
 	private boolean needsUpdate = true;
 	private Map<UUID, SkillModifier> modifiers = new HashMap<>();
-	//private List<SkillMilestone> achieved = new ArrayList<>();
-	private MilestoneMap milestones;//TODO: convert to list of achieved keys
+	private MilestoneMap milestones;
 
 	public SkillInstance(Skill skill, ISkillHandler handler)
 	{
@@ -104,20 +102,28 @@ public class SkillInstance implements INBTSerializable<NBTTagCompound>
 		needsUpdate = true;
 		for(SkillMilestone m : skill.getMilestones())
 		{
-			if(m.onValueUpdate(handler, getAchievedMilestones().contains(m)))
-			{
-				milestones.add(m.getKey(), m);
-			}
-			else
-			{
-				milestones.remove(m.getKey());
-			}
+			IMilestoneState<?> state = milestones.get(m.getKey());
+			state.update(handler);
+			m.onValueUpdate(handler, state.isAchieved());
 		}
 	}
 
 	public List<SkillMilestone> getAchievedMilestones()
 	{
-		return milestones.values();
+		List<SkillMilestone> list = new ArrayList<>();
+		for(IMilestoneState<?> state : milestones)
+		{
+			if(state.isAchieved())
+			{
+				list.add(state.getMilestone());
+			}
+		}
+		return list;
+	}
+
+	public boolean hasAchieved(String milestoneKey)
+	{
+		return milestones.get(milestoneKey).isAchieved();
 	}
 
 	@Override
@@ -126,17 +132,7 @@ public class SkillInstance implements INBTSerializable<NBTTagCompound>
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setString(AbilitiesAPIConstants.KEY_SKILL_ID, skill.getKey());
 		nbt.setDouble(AbilitiesAPIConstants.KEY_SKILL_BASE, baseValue);
-		NBTTagCompound mileList = new NBTTagCompound();
-		for(SkillMilestone m : getAchievedMilestones())
-		{
-			NBTBase tag = m.serializeNBT();
-			if(tag == null)
-			{
-				tag = new NBTTagByte((byte)1);//Boolean true
-			}
-			mileList.setTag(m.getKey(), tag);
-		}
-		nbt.setTag(AbilitiesAPIConstants.KEY_SKILL_MILESTONES, mileList);
+		nbt.setTag(AbilitiesAPIConstants.KEY_SKILL_MILESTONES, milestones.serializeNBT());
 		NBTTagList modList = new NBTTagList();
 		for(SkillModifier m : modifiers.values())
 		{
