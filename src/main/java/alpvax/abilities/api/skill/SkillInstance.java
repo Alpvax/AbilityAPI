@@ -25,7 +25,7 @@ public class SkillInstance implements INBTSerializable<NBTTagCompound>
 	public SkillInstance(Skill skill, ISkillHandler handler)
 	{
 		this.skill = skill;
-		baseValue = skill.getBaseValue();
+		baseValue = skill.getBaseValue(handler);
 		this.handler = handler;
 		milestones = new MilestoneMap(skill);
 	}

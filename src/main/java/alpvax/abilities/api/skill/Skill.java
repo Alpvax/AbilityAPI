@@ -20,7 +20,7 @@ public abstract class Skill implements IKeyedEntry<String>
 		return new SkillInstance(this, handler);
 	}
 
-	protected abstract double getBaseValue();
+	protected abstract double getBaseValue(ISkillHandler handler);
 
 	@Override
 	public String getKey()
