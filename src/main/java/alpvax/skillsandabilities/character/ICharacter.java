@@ -6,14 +6,14 @@ import java.util.UUID;
 import alpvax.skillsandabilities.ability.IAbility;
 import alpvax.skillsandabilities.skill.Skill;
 import alpvax.skillsandabilities.skill.SkillInstance;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import alpvax.skillsandabilities.util.ICapProviderObject;
 
-public interface ICharacter
+public interface ICharacter extends ICapProviderObject
 {
 	/**
 	 * @return the object this ICharacter is attached to.
 	 */
-	public ICapabilityProvider getObject();
+	//public ICapabilityProvider getObject();
 
 	/**
 	 * Check whether this ICharacter has an instance of this skill

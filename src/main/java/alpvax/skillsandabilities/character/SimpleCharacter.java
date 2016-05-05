@@ -25,7 +25,7 @@ public class SimpleCharacter implements ICharacter
 	}
 
 	@Override
-	public ICapabilityProvider getObject()
+	public ICapabilityProvider getAttachedObject()
 	{
 		return capabilityProvider;
 	}
