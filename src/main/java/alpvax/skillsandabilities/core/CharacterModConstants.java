@@ -1,5 +1,7 @@
 package alpvax.skillsandabilities.core;
 
+import net.minecraft.util.ResourceLocation;
+
 public class CharacterModConstants
 {
 	//Mod Data
@@ -19,4 +21,7 @@ public class CharacterModConstants
 	public static final String KEY_MODIFIER_VALUE = "ModifyAmount";
 
 	public static final String KEY_INSTANCE_CLASS = "InstanceClass";
+
+	//Capability keys
+	public static final ResourceLocation CAPABILITY_ABILITY_TARGET = new ResourceLocation(MOD_ID, "CapabilityAbilityTarget");
 }

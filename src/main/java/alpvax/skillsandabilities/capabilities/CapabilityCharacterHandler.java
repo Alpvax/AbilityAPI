@@ -18,7 +18,7 @@ public class CapabilityCharacterHandler
 	public static Capability<ICharacter> CAPABILITY_CHARACTER = null;
 
 	@CapabilityInject(IAbilityTarget.class)
-	public static Capability<ICharacter> CAPABILITY_ABILITY_TARGET = null;
+	public static Capability<IAbilityTarget> CAPABILITY_ABILITY_TARGET = null;
 
 	public static void registerCapabilities()
 	{
