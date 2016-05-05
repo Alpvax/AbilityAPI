@@ -12,7 +12,7 @@ public class SimpleAbilityTarget implements IAbilityTarget
 	}
 
 	@Override
-	public ICapabilityProvider getAttachedObject()
+	public ICapabilityProvider capabilityProvider()
 	{
 		return capabilityProvider;
 	}
