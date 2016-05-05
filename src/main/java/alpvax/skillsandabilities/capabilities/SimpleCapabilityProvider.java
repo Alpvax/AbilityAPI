@@ -1,4 +1,4 @@
-package alpvax.abilities.api.capabilities;
+package alpvax.skillsandabilities.capabilities;
 
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
